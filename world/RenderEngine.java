@@ -47,7 +47,7 @@ public class RenderEngine extends JPanel {
         addKeyListener(controller);
 
         //loop
-        Timer timer = new Timer(16, e -> {
+        Timer timer = new Timer(1, event -> {
             update();
             repaint();
         });
@@ -182,14 +182,14 @@ public class RenderEngine extends JPanel {
             double rayAngle = (angle - 0.35) + (x / (double) w) * 0.7;
             double maxY = h;
 
-            for (int d = 1; d < 500; d++) {
+            for (int depth = 1; depth < 500; depth++) {
 
-                double rx = playerPosX + Math.cos(rayAngle) * d;
-                double rz = playerPosZ + Math.sin(rayAngle) * d;
+                double rx = playerPosX + Math.cos(rayAngle) * depth;
+                double rz = playerPosZ + Math.sin(rayAngle) * depth;
 
                 double height = getHeight(rx, rz);
 
-                double proj = (height - eyeLevel) / (d * 0.6) * 1500;
+                double proj = (height - eyeLevel) / (depth * 0.6) * 1500;
                 int screenY = (int)(h / 2 - proj);
 
                 if (screenY < maxY) {
@@ -202,7 +202,7 @@ public class RenderEngine extends JPanel {
                     double light = 1 - (dx + dz) * 0.05;
                     light = Math.max(0.3, Math.min(1.2, light));
 
-                    double fog = Math.pow(d / 500.0, 2);
+                    double fog = Math.pow(depth / 500.0, 2);
 
                     int r = (int)(base.getRed() * light * (1 - fog) + 210 * fog);
                     int gCol = (int)(base.getGreen() * light * (1 - fog) + 140 * fog);
