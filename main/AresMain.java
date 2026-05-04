@@ -1,39 +1,26 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class AresMain {
 
     public static void main(String[] args) {
-
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new AresMain().init();
-            }
-        });
+        SwingUtilities.invokeLater(() -> new AresMain().init());
     }
 
     public void init() {
 
-        JFrame frame = new JFrame("Mars Terrain Viewer");
+        JFrame frame = new JFrame("Project Ares");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1280, 800);
+        frame.setLayout(new BorderLayout());
 
         RenderEngine engine = new RenderEngine();
-        Interface ui = new Interface(engine); // pass engine reference
+        Interface ui = new Interface(engine);
 
-        JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setLayout(null);
+        frame.add(engine, BorderLayout.CENTER); // top
+        frame.add(ui, BorderLayout.SOUTH);      // bottom
 
-        engine.setBounds(0, 0, 1280, 720);
-        ui.setBounds(0, 0, 1280, 720);
-
-        layeredPane.add(engine, Integer.valueOf(0));
-        layeredPane.add(ui, Integer.valueOf(1));
-
-        frame.add(layeredPane);
-        frame.setSize(1280, 720);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
-        engine.requestFocusInWindow();
     }
 }

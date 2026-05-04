@@ -9,6 +9,13 @@
             "name": "AresMain",
             "request": "launch",
             "mainClass": "AresMain",
+            "projectName": "ProjectAres_d0679adf"
+        },
+        {
+            "type": "java",
+            "name": "AresMain",
+            "request": "launch",
+            "mainClass": "AresMain",
             "projectName": "ProjectAres_42d29795"
         },
         {
