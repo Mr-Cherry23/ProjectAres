@@ -1,15 +1,17 @@
 import javax.swing.*;
-import javax.xml.catalog.CatalogFeatures.Feature;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class RenderEngine extends JPanel {
 
     BufferedImage heightMap;
     BufferedImage textureMap;
+
+    ArrayList<Feature> features = new ArrayList<>();
 
     double playerPosX;
     double playerPosZ;
@@ -35,6 +37,10 @@ public class RenderEngine extends JPanel {
             System.exit(1);
         }
         setPreferredSize(new Dimension(1280, 720));
+
+        features.add(new Rock(300, 300, 20));
+        features.add(new Rock(450, 600, 35));
+        features.add(new Rock(800, 500, 25));
         // loop
         Timer timer = new Timer(16, e -> {
             repaint();
