@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.xml.catalog.CatalogFeatures.Feature;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -184,6 +186,10 @@ public class RenderEngine extends JPanel {
                     maxY = sy;
                 }
             }
+        }
+
+        for (Feature f : features) {
+            f.render(g, this);
         }
     }
 }
