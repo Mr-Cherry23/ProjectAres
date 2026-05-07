@@ -14,25 +14,25 @@ public class RenderEngine extends JPanel {
     double angle = 0;
     double pitch = 0;
 
-    double minHeight = 255;
+    double minHeight = 65535;
     double maxHeight = 0;
 
     public RenderEngine() {
 
         try {
-            heightMap = ImageIO.read(new File("res/map1/heightmap1.png"));
-            textureMap = ImageIO.read(new File("res/map1/texturemap1.png"));
+            heightMap = ImageIO.read(new File("res/map2/heightmap2.png"));
+            textureMap = ImageIO.read(new File("res/map2/texturemap2.png"));
 
-            computeMinMax();
+            
 
             playerPosX = heightMap.getWidth() / 2.0;
             playerPosZ = heightMap.getHeight() / 2.0;
-
+    
         } catch (Exception error) {
             error.printStackTrace();
             System.exit(1);
         }
-
+        setPreferredSize(new Dimension(1280, 720));
         // loop
         Timer timer = new Timer(16, e -> {
             repaint();
@@ -79,7 +79,7 @@ public class RenderEngine extends JPanel {
 
     // --- HEIGHT + TEXTURE (unchanged) ---
 
-    double getHeight(double x, double z) {
+    public double getHeight(double x, double z) {
         int x0 = (int)Math.floor(x);
         int z0 = (int)Math.floor(z);
         int x1 = x0 + 1;
@@ -99,17 +99,25 @@ public class RenderEngine extends JPanel {
         return hx0 * (1 - tz) + hx1 * tz;
     }
 
-    double getPixelHeight(int x, int z) {
+    public double getPixelHeight(int x, int z) {
+
         if (x < 0 || z < 0 || x >= heightMap.getWidth() || z >= heightMap.getHeight())
             return 0;
+    
+        // Get raw 16-bit value
+        int raw = heightMap.getRaster().getSample(x, z, 0); // 0 = grayscale channel
+    
+        // Normalize (16-bit range)
+        double normalized = raw / 65535.0;
+        
 
-        int raw = heightMap.getRGB(x, z) & 0xFF;
-        double h = (raw - minHeight) / (maxHeight - minHeight + 0.0001);
-        h = Math.pow(h, 0.9);
-        return h * 20;
+        // Optional shaping (keep yours)
+        normalized = Math.pow(normalized, 0.9);
+    
+        return normalized * 20000;
     }
 
-    Color sampleTexture(double x, double z) {
+    public Color sampleTexture(double x, double z) {
 
         double tx = x / heightMap.getWidth() * textureMap.getWidth();
         double tz = z / heightMap.getHeight() * textureMap.getHeight();
@@ -123,13 +131,13 @@ public class RenderEngine extends JPanel {
         return new Color(textureMap.getRGB(ix, iz));
     }
 
-    void computeMinMax() {
-        for (int y = 0; y < heightMap.getHeight(); y++) {
-            for (int x = 0; x < heightMap.getWidth(); x++) {
-                int p = heightMap.getRGB(x, y) & 0xFF;
-                if (p < minHeight) minHeight = p;
-                if (p > maxHeight) maxHeight = p;
-            }
+    public int clamp(int value) {
+        if (value > 255) {
+            return 255;
+        } else if (value < 0) {
+            return 0;
+        } else {
+            return value;
         }
     }
 
@@ -137,40 +145,40 @@ public class RenderEngine extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int w = getWidth();
-        int h = getHeight();
+        int mapXExtent = getWidth();
+        int mapYExtent = getHeight();
 
         g.setColor(new Color(210, 140, 100));
-        g.fillRect(0, 0, w, h / 2);
+        g.fillRect(0, 0, mapXExtent, mapYExtent / 2);
 
         double eye = getHeight(playerPosX, playerPosZ) + 1;
 
-        for (int x = 0; x < w; x++) {
+        for (int x = 0; x < mapXExtent; x++) {
 
-            double rayAngle = (angle - 0.35) + (x / (double) w) * 0.7;
-            double maxY = h;
+            double rayAngle = (angle - 0.35) + (x / (double) mapXExtent) * 0.7;
+            double maxY = mapYExtent;
 
-            for (int d = 1; d < 500; d++) {
+            for (int rayDistance = 1; rayDistance < 1000; rayDistance++) {
 
-                double rx = playerPosX + Math.cos(rayAngle) * d;
-                double rz = playerPosZ + Math.sin(rayAngle) * d;
+                double rx = playerPosX + Math.cos(rayAngle) * rayDistance;
+                double rz = playerPosZ + Math.sin(rayAngle) * rayDistance;
 
                 double hgt = getHeight(rx, rz);
 
-                double proj = (hgt - eye) / (d * 0.6) * 1500;
-                int sy = (int)(h / 2 - proj + pitch);
+                double proj = (hgt - eye) / (rayDistance * 0.6) * 1500;
+                int sy = (int)(mapYExtent / 2 - proj + pitch);
 
                 if (sy < maxY) {
 
                     Color base = sampleTexture(rx, rz);
 
-                    double fog = Math.pow(d / 500.0, 2);
+                    double fog = Math.pow(rayDistance / 500.0, 2);
 
-                    int r = (int)(base.getRed() * (1 - fog) + 210 * fog);
-                    int gCol = (int)(base.getGreen() * (1 - fog) + 140 * fog);
-                    int b = (int)(base.getBlue() * (1 - fog) + 100 * fog);
+                    int red = clamp((int)(base.getRed() * (1 - fog) + 210 * fog));
+                    int green = clamp((int)(base.getGreen() * (1 - fog) + 140 * fog));
+                    int blue = clamp((int)(base.getBlue() * (1 - fog) + 100 * fog));
 
-                    g.setColor(new Color(r, gCol, b));
+                    g.setColor(new Color(red, green, blue));
                     g.drawLine(x, sy, x, (int)maxY);
 
                     maxY = sy;

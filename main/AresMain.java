@@ -11,14 +11,19 @@ public class AresMain {
 
         JFrame frame = new JFrame("Project Ares");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1280, 800);
+        frame.setSize(1280, 920);
         frame.setLayout(new BorderLayout());
 
         RenderEngine engine = new RenderEngine();
-        Interface ui = new Interface(engine);
+        ViewInterface view = new ViewInterface(engine);
+        ScienceInterface science = new ScienceInterface(engine);
+        MovementInterface movement = new MovementInterface(engine);
 
-        frame.add(engine, BorderLayout.CENTER); // top
-        frame.add(ui, BorderLayout.SOUTH);      // bottom
+
+        frame.add(engine, BorderLayout.PAGE_START); 
+        frame.add(view, BorderLayout.LINE_START);
+        frame.add(science, BorderLayout.CENTER);
+        frame.add(movement, BorderLayout.LINE_END);   
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

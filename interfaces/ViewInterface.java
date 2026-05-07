@@ -1,15 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Interface extends JPanel {
+public class ViewInterface extends JPanel {
 
     RenderEngine engine;
 
-    public Interface(RenderEngine engine) {
+    public ViewInterface(RenderEngine engine) {
         this.engine = engine;
 
-        setLayout(new GridLayout(4,2));
-        setPreferredSize(new Dimension(1280, 200));
+        setLayout(new GridLayout(3,3));
+        setPreferredSize(new Dimension(426, 200));
         setBackground(Color.DARK_GRAY);
 
         initUI();
@@ -33,12 +33,17 @@ public class Interface extends JPanel {
         back.addActionListener(event -> engine.moveBackward());
         reset.addActionListener(event -> engine.resetPosition());
 
-        add(left);
-        add(right);
-        add(back); 
-        add(forward);
+        add(new JLabel(""));
         add(upView);
+        add(new JLabel(""));
+        add(left);
+        add(new JLabel(""));
+        add(right);
+        add(new JLabel(""));
         add(downView);
-        add(reset);
+        add(new JLabel(""));
+        //add(reset); 
+        //add(back); 
+        //add(forward);
     }
 }
