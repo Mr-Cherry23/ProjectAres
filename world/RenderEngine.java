@@ -1,5 +1,4 @@
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -38,9 +37,9 @@ public class RenderEngine extends JPanel {
         }
         setPreferredSize(new Dimension(1280, 720));
 
-        features.add(new Rock(300, 300, 20));
-        features.add(new Rock(450, 600, 35));
-        features.add(new Rock(800, 500, 25));
+        features.add(new Rock(730, 1670, 2, 3));
+        features.add(new Rock(450, 600, 3, 5));
+        features.add(new Rock(800, 500, 5, 3));
         // loop
         Timer timer = new Timer(16, e -> {
             repaint();
@@ -60,12 +59,12 @@ public class RenderEngine extends JPanel {
 
     public void lookUp() {
         pitch += 150;
-        pitch = Math.max(-2000, Math.min(2000, pitch));
+        pitch = Math.max(-20000, Math.min(20000, pitch));
     }
     
     public void lookDown() {
         pitch -= 150;
-        pitch = Math.max(-2000, Math.min(2000, pitch));
+        pitch = Math.max(-20000, Math.min(20000, pitch));
     }
 
     public void moveForward() {
@@ -104,7 +103,32 @@ public class RenderEngine extends JPanel {
         double hx0 = h00 * (1 - tx) + h10 * tx;
         double hx1 = h01 * (1 - tx) + h11 * tx;
 
-        return hx0 * (1 - tz) + hx1 * tz;
+        double terrainHeight =
+        hx0 * (1 - tz) + hx1 * tz;
+    
+        // Add rock bumps
+        for (Feature feature : features) {
+    
+            if (feature instanceof Rock) {
+                Rock rock = (Rock) feature;
+
+
+                double dx = x - rock.x;
+                double dz = z - rock.z;
+    
+                double dist =
+                Math.sqrt(dx * dx + dz * dz);
+    
+                if (dist < rock.radius) {
+                    double influence = Math.exp(
+                        -(dist * dist)
+                        / (rock.radius * rock.radius * 0.18)
+                    );
+                    terrainHeight += influence * rock.height;
+                }
+            }
+        }
+        return terrainHeight;
     }
 
     public double getPixelHeight(int x, int z) {
@@ -122,7 +146,7 @@ public class RenderEngine extends JPanel {
         // Optional shaping (keep yours)
         normalized = Math.pow(normalized, 0.9);
     
-        return normalized * 20000;
+        return normalized * 10000;
     }
 
     public Color sampleTexture(double x, double z) {
@@ -149,6 +173,51 @@ public class RenderEngine extends JPanel {
         }
     }
 
+    public double getLight(double x, double z) {
+
+        double left  = getHeight(x - 1, z);
+        double right = getHeight(x + 1, z);
+    
+        double up    = getHeight(x, z - 1);
+        double down  = getHeight(x, z + 1);
+    
+        // terrain slope
+        double dx = right - left;
+        double dz = down - up;
+    
+        // fake normal
+        double nx = -dx;
+        double ny = 2.0;
+        double nz = -dz;
+    
+        // normalize normal
+        double len = Math.sqrt(nx * nx + ny * ny + nz * nz);
+    
+        nx /= len;
+        ny /= len;
+        nz /= len;
+    
+        // sun direction
+        double sx = 0.7;
+        double sy = 0.5;
+        double sz = 0.3;
+    
+        // normalize sun
+        double sl = Math.sqrt(sx*sx + sy*sy + sz*sz);
+    
+        sx /= sl;
+        sy /= sl;
+        sz /= sl;
+    
+        // dot product
+        double light = nx * sx + ny * sy + nz * sz;
+    
+        // remap brightness
+        light = 0.3 + light * 0.7;
+    
+        return Math.max(0.2, Math.min(1.3, light));
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -156,8 +225,24 @@ public class RenderEngine extends JPanel {
         int mapXExtent = getWidth();
         int mapYExtent = getHeight();
 
-        g.setColor(new Color(210, 140, 100));
-        g.fillRect(0, 0, mapXExtent, mapYExtent / 2);
+        Graphics2D g2 = (Graphics2D) g;
+
+        // Fill entire background first
+        g2.setColor(new Color(170, 110, 90));
+        g2.fillRect(0, 0, mapXExtent, mapYExtent);
+        
+        // Full sky gradient
+        GradientPaint sky = new GradientPaint(
+            0, 0,
+            new Color(90, 60, 50),
+        
+            0, mapYExtent,
+            new Color(220, 170, 130)
+        );
+        
+        g2.setPaint(sky);
+        g2.fillRect(0, 0, mapXExtent, mapYExtent);
+        
 
         double eye = getHeight(playerPosX, playerPosZ) + 1;
 
@@ -166,7 +251,7 @@ public class RenderEngine extends JPanel {
             double rayAngle = (angle - 0.35) + (x / (double) mapXExtent) * 0.7;
             double maxY = mapYExtent;
 
-            for (int rayDistance = 1; rayDistance < 1000; rayDistance++) {
+            for (int rayDistance = 1; rayDistance < 600; rayDistance++) {
 
                 double rx = playerPosX + Math.cos(rayAngle) * rayDistance;
                 double rz = playerPosZ + Math.sin(rayAngle) * rayDistance;
@@ -179,12 +264,24 @@ public class RenderEngine extends JPanel {
                 if (sy < maxY) {
 
                     Color base = sampleTexture(rx, rz);
+                    double light = getLight(rx, rz);
 
                     double fog = Math.pow(rayDistance / 500.0, 2);
 
-                    int red = clamp((int)(base.getRed() * (1 - fog) + 210 * fog));
-                    int green = clamp((int)(base.getGreen() * (1 - fog) + 140 * fog));
-                    int blue = clamp((int)(base.getBlue() * (1 - fog) + 100 * fog));
+                    int red = clamp((int)(
+                        base.getRed() * light * (1 - fog)
+                        + 170 * fog
+                    ));
+
+                    int green = clamp((int)(
+                        base.getGreen() * light * (1 - fog)
+                        + 110 * fog
+                    ));
+
+                    int blue = clamp((int)(
+                        base.getBlue() * light * (1 - fog)
+                        + 90 * fog
+                    ));
 
                     g.setColor(new Color(red, green, blue));
                     g.drawLine(x, sy, x, (int)maxY);
@@ -192,10 +289,6 @@ public class RenderEngine extends JPanel {
                     maxY = sy;
                 }
             }
-        }
-
-        for (Feature f : features) {
-            f.render(g, this);
         }
     }
 }

@@ -10,7 +10,7 @@ public class ScienceInterface extends JPanel {
 
         setLayout(new GridLayout(3,3));
         setPreferredSize(new Dimension(426, 200));
-        setBackground(Color.DARK_GRAY);
+        setBackground(Color.WHITE);
 
         initUI();
     }
@@ -33,9 +33,9 @@ public class ScienceInterface extends JPanel {
         back.addActionListener(event -> engine.moveBackward());
         reset.addActionListener(event -> engine.resetPosition());
 
-        add(new JLabel(""));
+        add(new JLabel(String.format("%.2f", engine.playerPosX)));
         add(upView);
-        add(new JLabel(""));
+        add(new JLabel(String.format("%.2f", engine.playerPosZ)));
         add(left);
         add(new JLabel(""));
         add(right);
