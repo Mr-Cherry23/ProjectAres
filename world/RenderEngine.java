@@ -7,6 +7,9 @@ import javax.imageio.ImageIO;
 
 public class RenderEngine extends JPanel {
 
+    ScienceInterface scienceInterface;
+    ViewInterface viewInterface;
+
     BufferedImage heightMap;
     BufferedImage textureMap;
     BufferedImage rockTexture;
@@ -39,7 +42,7 @@ public class RenderEngine extends JPanel {
         setPreferredSize(new Dimension(1280, 720));
 
         features.add(new Rock(730, 1670, 2));
-        features.add(new Rock(450, 600, 3));
+        features.add(new Rock(850, 1670, 3));
         features.add(new Rock(800, 500, 5));
 
         Timer timer = new Timer(16, e -> {
@@ -49,39 +52,54 @@ public class RenderEngine extends JPanel {
         timer.start();
     }
 
+    void setInterfaces(ScienceInterface scienceInterface, ViewInterface viewInterface) {
+        this.scienceInterface = scienceInterface;
+        this.viewInterface = viewInterface;
+    }
+    
     public void rotateLeft() {
         angle -= Math.toRadians(15);
+        viewInterface.updateReadings();
     }
 
     public void rotateRight() {
         angle += Math.toRadians(15);
+        viewInterface.updateReadings();
     }
 
     public void lookUp() {
         pitch += 150;
         pitch = Math.max(-20000, Math.min(20000, pitch));
+        viewInterface.updateReadings();
     }
     
     public void lookDown() {
         pitch -= 150;
         pitch = Math.max(-20000, Math.min(20000, pitch));
+        viewInterface.updateReadings();
     }
 
     public void moveForward() {
         double speed = 5;
         playerPosX += Math.cos(angle) * speed;
         playerPosZ += Math.sin(angle) * speed;
+        scienceInterface.updateReadings();
+        viewInterface.updateReadings();
     }
 
     public void moveBackward() {
         double speed = 5;
         playerPosX -= Math.cos(angle) * speed;
         playerPosZ -= Math.sin(angle) * speed;
+        scienceInterface.updateReadings();
+        viewInterface.updateReadings();
     }
 
     public void resetPosition() {
         playerPosX = heightMap.getWidth() / 2.0;
         playerPosZ = heightMap.getHeight() / 2.0;
+        scienceInterface.updateReadings();
+        viewInterface.updateReadings();
     }
 
     public double getHeight(double x, double z) {

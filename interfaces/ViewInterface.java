@@ -2,48 +2,61 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ViewInterface extends JPanel {
-
+    final static boolean shouldFill = true;
     RenderEngine engine;
+    Inclinometer inclinometer;
 
     public ViewInterface(RenderEngine engine) {
         this.engine = engine;
-
-        setLayout(new GridLayout(3,3));
-        setPreferredSize(new Dimension(426, 200));
+        setPreferredSize(new Dimension(426, 500));
         setBackground(Color.DARK_GRAY);
-
+        setLayout(new GridBagLayout());
         initUI();
     }
 
     void initUI() {
-
-        JButton left = new JButton("Left");
-        JButton right = new JButton("Right");
-        JButton forward = new JButton("Forward");
-        JButton back = new JButton("Back");
-        JButton reset = new JButton("Reset");
-        JButton upView = new JButton("Look Up");
-        JButton downView = new JButton("Look Down");
-        
-        upView.addActionListener(event -> engine.lookUp());
-        downView.addActionListener(event -> engine.lookDown());
+        GridBagConstraints i = new GridBagConstraints();
+        i.fill = GridBagConstraints.BOTH;
+        JButton left = new JButton("<=");
+        left.setPreferredSize(new Dimension(50, 50));
         left.addActionListener(event -> engine.rotateLeft());
-        right.addActionListener(event -> engine.rotateRight());
-        forward.addActionListener(event -> engine.moveForward());
-        back.addActionListener(event -> engine.moveBackward());
-        reset.addActionListener(event -> engine.resetPosition());
+        i.gridx = 0;
+        i.gridy = 1;
+        add(left, i);
+        
+        JButton upView = new JButton("^");
+        upView.setPreferredSize(new Dimension(50, 50));
+        upView.addActionListener(event -> engine.lookUp());
+        i.gridx = 1;
+        i.gridy = 0;
+        add(upView, i);    
 
-        add(new JLabel(""));
-        add(upView);
-        add(new JLabel(""));
-        add(left);
-        add(new JLabel(""));
-        add(right);
-        add(new JLabel(""));
-        add(downView);
-        add(new JLabel(""));
-        //add(reset); 
-        //add(back); 
-        //add(forward);
+        JButton downView = new JButton("!^");
+        downView.setPreferredSize(new Dimension(50, 50));
+        downView.addActionListener(event -> engine.lookDown());
+        i.gridx = 1;
+        i.gridy = 2;
+        add(downView, i);
+
+        JButton right = new JButton("=>");
+        right.setPreferredSize(new Dimension(50, 50));
+        right.addActionListener(event -> engine.rotateRight());
+        i.gridwidth = GridBagConstraints.REMAINDER;
+        i.gridx = 2;
+        i.gridy = 1;
+        add(right, i);
+
+        inclinometer = new Inclinometer(engine);
+        i.gridx = 4;
+        i.gridy = 2;
+        i.weighty = 0.5;
+        i.weightx = 0.5;
+        i.gridwidth = GridBagConstraints.REMAINDER;
+        i.gridheight = GridBagConstraints.REMAINDER;
+        add(inclinometer, i);
+    }
+
+    public void updateReadings() {
+        inclinometer.repaint();
     }
 }

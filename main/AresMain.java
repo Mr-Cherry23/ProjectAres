@@ -11,7 +11,7 @@ public class AresMain {
 
         JFrame frame = new JFrame("Project Ares");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1280, 920);
+        frame.setSize(1280, 1020);
         frame.setLayout(new BorderLayout());
 
         RenderEngine engine = new RenderEngine();
@@ -19,6 +19,7 @@ public class AresMain {
         ScienceInterface science = new ScienceInterface(engine);
         MovementInterface movement = new MovementInterface(engine);
 
+        engine.setInterfaces(science, view);
 
         frame.add(engine, BorderLayout.PAGE_START); 
         frame.add(view, BorderLayout.LINE_START);
