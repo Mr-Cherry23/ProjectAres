@@ -9,6 +9,7 @@ public class RenderEngine extends JPanel {
 
     BufferedImage heightMap;
     BufferedImage textureMap;
+    BufferedImage rockTexture;
 
     ArrayList<Feature> features = new ArrayList<>();
 
@@ -25,9 +26,8 @@ public class RenderEngine extends JPanel {
         try {
             heightMap = ImageIO.read(new File("res/map2/heightmap2.png"));
             textureMap = ImageIO.read(new File("res/map2/texturemap2.png"));
-
+            rockTexture = ImageIO.read(new File("res/other/rock.png"));
             
-
             playerPosX = heightMap.getWidth() / 2.0;
             playerPosZ = heightMap.getHeight() / 2.0;
     
@@ -35,19 +35,18 @@ public class RenderEngine extends JPanel {
             error.printStackTrace();
             System.exit(1);
         }
+        
         setPreferredSize(new Dimension(1280, 720));
 
-        features.add(new Rock(730, 1670, 2, 3));
-        features.add(new Rock(450, 600, 3, 5));
-        features.add(new Rock(800, 500, 5, 3));
-        // loop
+        features.add(new Rock(730, 1670, 2));
+        features.add(new Rock(450, 600, 3));
+        features.add(new Rock(800, 500, 5));
+
         Timer timer = new Timer(16, e -> {
             repaint();
         });
         timer.start();
     }
-
-    // 🎮 Movement methods (CALLED FROM UI)
 
     public void rotateLeft() {
         angle -= Math.toRadians(15);
@@ -84,8 +83,6 @@ public class RenderEngine extends JPanel {
         playerPosZ = heightMap.getHeight() / 2.0;
     }
 
-    // --- HEIGHT + TEXTURE (unchanged) ---
-
     public double getHeight(double x, double z) {
         int x0 = (int)Math.floor(x);
         int z0 = (int)Math.floor(z);
@@ -103,28 +100,23 @@ public class RenderEngine extends JPanel {
         double hx0 = h00 * (1 - tx) + h10 * tx;
         double hx1 = h01 * (1 - tx) + h11 * tx;
 
-        double terrainHeight =
-        hx0 * (1 - tz) + hx1 * tz;
+        double terrainHeight = hx0 * (1 - tz) + hx1 * tz;
     
-        // Add rock bumps
         for (Feature feature : features) {
     
             if (feature instanceof Rock) {
                 Rock rock = (Rock) feature;
 
-
                 double dx = x - rock.x;
                 double dz = z - rock.z;
-    
-                double dist =
-                Math.sqrt(dx * dx + dz * dz);
-    
+
+                double dist = Math.sqrt(dx * dx + dz * dz);
+
                 if (dist < rock.radius) {
-                    double influence = Math.exp(
-                        -(dist * dist)
-                        / (rock.radius * rock.radius * 0.18)
-                    );
-                    terrainHeight += influence * rock.height;
+                    double sphereHeight = Math.sqrt(rock.radius * rock.radius- dist * dist);
+                    sphereHeight *= 0.7;
+                    sphereHeight += Math.sin(x * 1.005) * Math.cos(z * 1.005) * 0.50;
+                    terrainHeight += sphereHeight;
                 }
             }
         }
@@ -135,15 +127,11 @@ public class RenderEngine extends JPanel {
 
         if (x < 0 || z < 0 || x >= heightMap.getWidth() || z >= heightMap.getHeight())
             return 0;
+
+        int raw = heightMap.getRaster().getSample(x, z, 0); 
     
-        // Get raw 16-bit value
-        int raw = heightMap.getRaster().getSample(x, z, 0); // 0 = grayscale channel
-    
-        // Normalize (16-bit range)
         double normalized = raw / 65535.0;
         
-
-        // Optional shaping (keep yours)
         normalized = Math.pow(normalized, 0.9);
     
         return normalized * 10000;
@@ -160,7 +148,44 @@ public class RenderEngine extends JPanel {
         ix = Math.max(0, Math.min(textureMap.getWidth() - 1, ix));
         iz = Math.max(0, Math.min(textureMap.getHeight() - 1, iz));
 
-        return new Color(textureMap.getRGB(ix, iz));
+        Color terrainColor = new Color(textureMap.getRGB(ix, iz));
+
+        for (Feature f : features) {
+
+            if (f instanceof Rock) {
+
+                Rock rock = (Rock) f;
+
+                double dx = x - rock.x;
+                double dz = z - rock.z;
+
+                double dist = Math.sqrt(dx * dx + dz * dz);
+
+                if (dist < rock.radius) {
+                    double influence = 1.0 - (dist / rock.radius);
+                    influence = Math.pow(influence, 0.1);
+                    int rx = (int)(x * 4) % rockTexture.getWidth();
+                    int rz = (int)(z * 4) % rockTexture.getHeight();
+
+                    if (rx < 0) {
+                        rx += rockTexture.getWidth();
+                    }
+                    if (rz < 0) {
+                        rz += rockTexture.getHeight();
+                    }
+                    Color rockColor = new Color(rockTexture.getRGB(rx, rz));
+                    int r = (int)(terrainColor.getRed()* (1 - influence) + rockColor.getRed() * influence);
+
+                    int g = (int)(terrainColor.getGreen() * (1 - influence) + rockColor.getGreen() * influence);
+
+                    int b = (int)(terrainColor.getBlue() * (1 - influence) + rockColor.getBlue() * influence);
+
+                    return new Color(clamp(r),clamp(g),clamp(b));
+                }
+            }
+        }
+
+        return terrainColor;
     }
 
     public int clamp(int value) {
