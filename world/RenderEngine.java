@@ -45,6 +45,7 @@ public class RenderEngine extends JPanel {
         Timer timer = new Timer(16, e -> {
             repaint();
         });
+        
         timer.start();
     }
 
@@ -125,12 +126,12 @@ public class RenderEngine extends JPanel {
 
     public double getPixelHeight(int x, int z) {
 
-        if (x < 0 || z < 0 || x >= heightMap.getWidth() || z >= heightMap.getHeight())
+        if (x < 0 || z < 0 || x >= heightMap.getWidth() || z >= heightMap.getHeight()) {
             return 0;
+        }
 
-        int raw = heightMap.getRaster().getSample(x, z, 0); 
-    
-        double normalized = raw / 65535.0;
+        int raw = heightMap.getRaster().getSample(x, z, 0);    
+        double normalized = raw / 65535.0;  
         
         normalized = Math.pow(normalized, 0.9);
     
@@ -162,8 +163,10 @@ public class RenderEngine extends JPanel {
                 double dist = Math.sqrt(dx * dx + dz * dz);
 
                 if (dist < rock.radius) {
+                    
                     double influence = 1.0 - (dist / rock.radius);
                     influence = Math.pow(influence, 0.1);
+                    
                     int rx = (int)(x * 4) % rockTexture.getWidth();
                     int rz = (int)(z * 4) % rockTexture.getHeight();
 
@@ -173,11 +176,11 @@ public class RenderEngine extends JPanel {
                     if (rz < 0) {
                         rz += rockTexture.getHeight();
                     }
+                    
                     Color rockColor = new Color(rockTexture.getRGB(rx, rz));
+                    
                     int r = (int)(terrainColor.getRed()* (1 - influence) + rockColor.getRed() * influence);
-
                     int g = (int)(terrainColor.getGreen() * (1 - influence) + rockColor.getGreen() * influence);
-
                     int b = (int)(terrainColor.getBlue() * (1 - influence) + rockColor.getBlue() * influence);
 
                     return new Color(clamp(r),clamp(g),clamp(b));
@@ -189,6 +192,7 @@ public class RenderEngine extends JPanel {
     }
 
     public int clamp(int value) {
+        
         if (value > 255) {
             return 255;
         } else if (value < 0) {
@@ -206,38 +210,28 @@ public class RenderEngine extends JPanel {
         double up    = getHeight(x, z - 1);
         double down  = getHeight(x, z + 1);
     
-        // terrain slope
         double dx = right - left;
         double dz = down - up;
-    
-        // fake normal
+
         double nx = -dx;
         double ny = 2.0;
         double nz = -dz;
-    
-        // normalize normal
         double len = Math.sqrt(nx * nx + ny * ny + nz * nz);
-    
+        
         nx /= len;
         ny /= len;
         nz /= len;
-    
-        // sun direction
+        
         double sx = 0.7;
         double sy = 0.5;
         double sz = 0.3;
-    
-        // normalize sun
         double sl = Math.sqrt(sx*sx + sy*sy + sz*sz);
-    
+        
         sx /= sl;
         sy /= sl;
         sz /= sl;
-    
-        // dot product
+        
         double light = nx * sx + ny * sy + nz * sz;
-    
-        // remap brightness
         light = 0.3 + light * 0.7;
     
         return Math.max(0.2, Math.min(1.3, light));
@@ -257,13 +251,7 @@ public class RenderEngine extends JPanel {
         g2.fillRect(0, 0, mapXExtent, mapYExtent);
         
         // Full sky gradient
-        GradientPaint sky = new GradientPaint(
-            0, 0,
-            new Color(90, 60, 50),
-        
-            0, mapYExtent,
-            new Color(220, 170, 130)
-        );
+        GradientPaint sky = new GradientPaint(0, 0, new Color(90, 60, 50),0, mapYExtent, new Color(220, 170, 130));
         
         g2.setPaint(sky);
         g2.fillRect(0, 0, mapXExtent, mapYExtent);
@@ -293,20 +281,11 @@ public class RenderEngine extends JPanel {
 
                     double fog = Math.pow(rayDistance / 500.0, 2);
 
-                    int red = clamp((int)(
-                        base.getRed() * light * (1 - fog)
-                        + 170 * fog
-                    ));
+                    int red = clamp((int)(base.getRed() * light * (1 - fog) + 170 * fog));
 
-                    int green = clamp((int)(
-                        base.getGreen() * light * (1 - fog)
-                        + 110 * fog
-                    ));
+                    int green = clamp((int)(base.getGreen() * light * (1 - fog) + 110 * fog));
 
-                    int blue = clamp((int)(
-                        base.getBlue() * light * (1 - fog)
-                        + 90 * fog
-                    ));
+                    int blue = clamp((int)(base.getBlue() * light * (1 - fog) + 90 * fog));
 
                     g.setColor(new Color(red, green, blue));
                     g.drawLine(x, sy, x, (int)maxY);
