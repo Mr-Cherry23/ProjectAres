@@ -4,7 +4,7 @@ import java.awt.*;
 public class ViewInterface extends JPanel {
     final static boolean shouldFill = true;
     RenderEngine engine;
-    Inclinometer inclinometer;
+    Compass inclinometer;
 
     public ViewInterface(RenderEngine engine) {
         this.engine = engine;
@@ -46,17 +46,16 @@ public class ViewInterface extends JPanel {
         i.gridy = 1;
         add(right, i);
 
-        inclinometer = new Inclinometer(engine);
-        i.gridx = 4;
-        i.gridy = 2;
-        i.weighty = 0.5;
-        i.weightx = 0.5;
-        i.gridwidth = GridBagConstraints.REMAINDER;
-        i.gridheight = GridBagConstraints.REMAINDER;
+        inclinometer = new Compass();
+        inclinometer.setBounds(20, 20, 120, 120);
+        i.gridx = 0;
+        i.gridy = 0;
         add(inclinometer, i);
+
     }
 
     public void updateReadings() {
-        inclinometer.repaint();
+        inclinometer.setHeading(engine.roverAttitude[0]);
+        inclinometer.updateReadings();
     }
 }

@@ -9,16 +9,19 @@ public class RenderEngine extends JPanel {
 
     ScienceInterface scienceInterface;
     ViewInterface viewInterface;
+    Compass inclinometer;
 
     BufferedImage heightMap;
     BufferedImage textureMap;
     BufferedImage rockTexture;
 
     ArrayList<Feature> features = new ArrayList<>();
-
+    double[] roverAttitude = new double[3];
     double playerPosX;
     double playerPosZ;
-    double angle = 0;
+    double roverWidth = 12;
+    double roverLength = 18;
+    double cameraAngle = 0;
     double pitch = 0;
 
     double minHeight = 65535;
@@ -47,6 +50,8 @@ public class RenderEngine extends JPanel {
 
         Timer timer = new Timer(16, e -> {
             repaint();
+            viewInterface.updateReadings();
+            updateAttitude();
         });
         
         timer.start();
@@ -58,12 +63,22 @@ public class RenderEngine extends JPanel {
     }
     
     public void rotateLeft() {
-        angle -= Math.toRadians(15);
+        cameraAngle -= Math.toRadians(15);
         viewInterface.updateReadings();
     }
 
     public void rotateRight() {
-        angle += Math.toRadians(15);
+        cameraAngle += Math.toRadians(15);
+        viewInterface.updateReadings();
+    }
+
+    public void turnLeft() {
+        roverAttitude[0] -= Math.toRadians(15);
+        viewInterface.updateReadings();
+    }
+
+    public void turnRight() {
+        roverAttitude[0] += Math.toRadians(15);
         viewInterface.updateReadings();
     }
 
@@ -81,16 +96,16 @@ public class RenderEngine extends JPanel {
 
     public void moveForward() {
         double speed = 5;
-        playerPosX += Math.cos(angle) * speed;
-        playerPosZ += Math.sin(angle) * speed;
+        playerPosX += Math.cos(roverAttitude[0]) * speed;
+        playerPosZ += Math.sin(roverAttitude[0]) * speed;
         scienceInterface.updateReadings();
         viewInterface.updateReadings();
     }
 
     public void moveBackward() {
         double speed = 5;
-        playerPosX -= Math.cos(angle) * speed;
-        playerPosZ -= Math.sin(angle) * speed;
+        playerPosX -= Math.cos(roverAttitude[0]) * speed;
+        playerPosZ -= Math.sin(roverAttitude[0]) * speed;
         scienceInterface.updateReadings();
         viewInterface.updateReadings();
     }
@@ -255,6 +270,49 @@ public class RenderEngine extends JPanel {
         return Math.max(0.2, Math.min(1.3, light));
     }
 
+    public void updateAttitude() {
+
+        double cos = Math.cos(roverAttitude[0]);
+        double sin = Math.sin(roverAttitude[0]);
+    
+        // wheel offsets
+        double halfW = roverWidth / 2.0;
+        double halfL = roverLength / 2.0;
+    
+        // Front left
+        double flx = playerPosX + cos * halfL - sin * halfW;
+        double flz = playerPosZ + sin * halfL + cos * halfW;
+    
+        // Front right
+        double frx = playerPosX + cos * halfL + sin * halfW;
+        double frz = playerPosZ + sin * halfL - cos * halfW;
+    
+        // Rear left
+        double rlx = playerPosX - cos * halfL - sin * halfW;
+        double rlz = playerPosZ - sin * halfL + cos * halfW;
+    
+        // Rear right
+        double rrx = playerPosX - cos * halfL + sin * halfW;
+        double rrz = playerPosZ - sin * halfL - cos * halfW;
+    
+        double fl = getHeight(flx, flz);
+        double fr = getHeight(frx, frz);
+        double rl = getHeight(rlx, rlz);
+        double rr = getHeight(rrx, rrz);
+    
+        // Forward/back tilt
+        double frontAvg = (fl + fr) * 0.5;
+        double rearAvg = (rl + rr) * 0.5;
+    
+        roverAttitude[1]= Math.atan2(frontAvg - rearAvg, roverLength);
+    
+        // Side tilt
+        double leftAvg = (fl + rl) * 0.5;
+        double rightAvg = (fr + rr) * 0.5;
+    
+        roverAttitude[2] = Math.atan2(leftAvg - rightAvg, roverWidth);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -279,7 +337,7 @@ public class RenderEngine extends JPanel {
 
         for (int x = 0; x < mapXExtent; x++) {
 
-            double rayAngle = (angle - 0.35) + (x / (double) mapXExtent) * 0.7;
+            double rayAngle = (cameraAngle - 0.35) + (x / (double) mapXExtent) * 0.7;
             double maxY = mapYExtent;
 
             for (int rayDistance = 1; rayDistance < 600; rayDistance++) {

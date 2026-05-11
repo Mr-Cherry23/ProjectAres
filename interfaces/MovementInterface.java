@@ -8,7 +8,7 @@ public class MovementInterface extends JPanel {
     public MovementInterface(RenderEngine engine) {
         this.engine = engine;
 
-        setLayout(new GridLayout(3,1));
+        setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(426, 200));
         setBackground(Color.DARK_GRAY);
 
@@ -16,25 +16,36 @@ public class MovementInterface extends JPanel {
     }
 
     void initUI() {
-
-        JButton left = new JButton("Left");
-        JButton right = new JButton("Right");
-        JButton forward = new JButton("Forward");
-        JButton back = new JButton("Back");
-        JButton reset = new JButton("Reset");
-        JButton upView = new JButton("Look Up");
-        JButton downView = new JButton("Look Down");
+        GridBagConstraints i = new GridBagConstraints();
+        i.fill = GridBagConstraints.BOTH;
+        JButton left = new JButton("<=");
+        left.setPreferredSize(new Dimension(50, 50));
+        left.addActionListener(event -> engine.turnLeft());
+        i.gridx = 0;
+        i.gridy = 1;
+        add(left, i);
         
-        upView.addActionListener(event -> engine.lookUp());
-        downView.addActionListener(event -> engine.lookDown());
-        left.addActionListener(event -> engine.rotateLeft());
-        right.addActionListener(event -> engine.rotateRight());
-        forward.addActionListener(event -> engine.moveForward());
-        back.addActionListener(event -> engine.moveBackward());
-        reset.addActionListener(event -> engine.resetPosition());
+        JButton upView = new JButton("^");
+        upView.setPreferredSize(new Dimension(50, 50));
+        upView.addActionListener(event -> engine.moveForward());
+        i.gridx = 1;
+        i.gridy = 0;
+        add(upView, i);    
 
-        add(forward);
-        add(reset); 
-        add(back);
+        JButton downView = new JButton("!^");
+        downView.setPreferredSize(new Dimension(50, 50));
+        downView.addActionListener(event -> engine.moveBackward());
+        i.gridx = 1;
+        i.gridy = 2;
+        add(downView, i);
+
+        JButton right = new JButton("=>");
+        right.setPreferredSize(new Dimension(50, 50));
+        right.addActionListener(event -> engine.turnRight());
+        i.gridwidth = GridBagConstraints.REMAINDER;
+        i.gridx = 2;
+        i.gridy = 1;
+        add(right, i);
+
     }
 }
