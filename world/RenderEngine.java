@@ -50,7 +50,6 @@ public class RenderEngine extends JPanel {
 
         Timer timer = new Timer(16, e -> {
             repaint();
-            viewInterface.updateReadings();
             updateAttitude();
         });
         
