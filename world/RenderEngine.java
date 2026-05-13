@@ -98,7 +98,6 @@ public class RenderEngine extends JPanel {
         double speed = 5;
         playerPosX += Math.cos(roverAttitude[0]) * speed;
         playerPosZ += Math.sin(roverAttitude[0]) * speed;
-        scienceInterface.updateReadings();
         sensors.updateReadings();
     }
 
@@ -106,14 +105,12 @@ public class RenderEngine extends JPanel {
         double speed = 5;
         playerPosX -= Math.cos(roverAttitude[0]) * speed;
         playerPosZ -= Math.sin(roverAttitude[0]) * speed;
-        scienceInterface.updateReadings();
         sensors.updateReadings();
     }
 
     public void resetPosition() {
         playerPosX = heightMap.getWidth() / 2.0;
         playerPosZ = heightMap.getHeight() / 2.0;
-        scienceInterface.updateReadings();
         sensors.updateReadings();
     }
 

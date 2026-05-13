@@ -18,11 +18,21 @@ public class ScienceInterface extends JPanel {
     }
 
     void initUI() {
-        
-        positionXLabel = new JLabel(String.format("%.2f", engine.playerPosX));
-        add(positionXLabel);
-        positionZLabel = new JLabel(String.format("%.2f", engine.playerPosZ));
-        add(positionZLabel);
+        GridBagConstraints i = new GridBagConstraints();
+        i.fill = GridBagConstraints.BOTH;
+
+
+        i.weightx = 1;
+        i.weighty = 1;
+        i.gridx = 0;
+        i.gridy = 0;
+
+
+        i.weightx = 1;
+        i.weighty = 1;
+        i.gridx = 0;
+        i.gridy = 1;
+
     }
 
     void updateReadings() {

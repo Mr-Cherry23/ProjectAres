@@ -34,10 +34,8 @@ public class SensorInterface extends JPanel {
         i.gridx = 0;
         i.gridy = 1;
         add(inclinometer, i);
-
-
-
     }
+
     public void updateReadings() {
         compass.setHeading(engine.roverAttitude[0]);
         compass.setCameraAngle(engine.cameraAngle);
