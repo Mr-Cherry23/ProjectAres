@@ -104,12 +104,18 @@ public class Compass extends JPanel {
         g2.fillPolygon(marker);
 
         AffineTransform old2 = g2.getTransform();
-
-        g2.translate(centerX, centerY);
-        g2.rotate(cameraAngle);
-        g2.setColor(Color.BLACK);
-        g2.setStroke(new BasicStroke(3));
-        g2.drawLine( 0, 10, 0, -radius + 25);
+        if (cameraAngle != heading) {
+            g2.translate(centerX, centerY);
+            g2.rotate(cameraAngle - heading);
+            g2.setColor(Color.BLACK);
+            g2.setStroke(new BasicStroke(3));
+            g2.drawLine( 0, 10, 0, -radius + 50);
+        } else {
+            g2.translate(centerX, centerY);
+            g2.setColor(Color.BLACK);
+            g2.setStroke(new BasicStroke(3));
+            g2.drawLine( 0, 10, 0, -radius + 50);
+        }
 
         g2.setTransform(old2);
 

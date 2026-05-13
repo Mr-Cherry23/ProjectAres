@@ -4,7 +4,6 @@ import java.awt.*;
 public class ViewInterface extends JPanel {
     final static boolean shouldFill = true;
     RenderEngine engine;
-    SensorInterface sensors;
 
     public ViewInterface(RenderEngine engine) {
         this.engine = engine;
@@ -46,9 +45,5 @@ public class ViewInterface extends JPanel {
         i.gridy = 1;
         add(right, i);
 
-    }
-
-    public void updateReadings() {
-        sensors.updateReadings();
     }
 }

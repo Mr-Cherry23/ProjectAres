@@ -8,8 +8,7 @@ import javax.imageio.ImageIO;
 public class RenderEngine extends JPanel {
 
     ScienceInterface scienceInterface;
-    ViewInterface viewInterface;
-    Compass inclinometer;
+    SensorInterface sensors;
 
     BufferedImage heightMap;
     BufferedImage textureMap;
@@ -56,41 +55,43 @@ public class RenderEngine extends JPanel {
         timer.start();
     }
 
-    void setInterfaces(ScienceInterface scienceInterface, ViewInterface viewInterface) {
+    void setInterfaces(ScienceInterface scienceInterface, SensorInterface sensors) {
         this.scienceInterface = scienceInterface;
-        this.viewInterface = viewInterface;
+        this.sensors = sensors;
     }
     
     public void rotateLeft() {
         cameraAngle -= Math.toRadians(15);
-        viewInterface.updateReadings();
+        sensors.updateReadings();
     }
 
     public void rotateRight() {
         cameraAngle += Math.toRadians(15);
-        viewInterface.updateReadings();
+        sensors.updateReadings();
     }
 
     public void turnLeft() {
         roverAttitude[0] -= Math.toRadians(15);
-        viewInterface.updateReadings();
+        cameraAngle -= Math.toRadians(15);
+        sensors.updateReadings();
     }
 
     public void turnRight() {
         roverAttitude[0] += Math.toRadians(15);
-        viewInterface.updateReadings();
+        cameraAngle += Math.toRadians(15);
+        sensors.updateReadings();
     }
 
     public void lookUp() {
         pitch += 150;
         pitch = Math.max(-20000, Math.min(20000, pitch));
-        viewInterface.updateReadings();
+        sensors.updateReadings();
     }
     
     public void lookDown() {
         pitch -= 150;
         pitch = Math.max(-20000, Math.min(20000, pitch));
-        viewInterface.updateReadings();
+        sensors.updateReadings();
     }
 
     public void moveForward() {
@@ -98,7 +99,7 @@ public class RenderEngine extends JPanel {
         playerPosX += Math.cos(roverAttitude[0]) * speed;
         playerPosZ += Math.sin(roverAttitude[0]) * speed;
         scienceInterface.updateReadings();
-        viewInterface.updateReadings();
+        sensors.updateReadings();
     }
 
     public void moveBackward() {
@@ -106,14 +107,14 @@ public class RenderEngine extends JPanel {
         playerPosX -= Math.cos(roverAttitude[0]) * speed;
         playerPosZ -= Math.sin(roverAttitude[0]) * speed;
         scienceInterface.updateReadings();
-        viewInterface.updateReadings();
+        sensors.updateReadings();
     }
 
     public void resetPosition() {
         playerPosX = heightMap.getWidth() / 2.0;
         playerPosZ = heightMap.getHeight() / 2.0;
         scienceInterface.updateReadings();
-        viewInterface.updateReadings();
+        sensors.updateReadings();
     }
 
     public double getHeight(double x, double z) {

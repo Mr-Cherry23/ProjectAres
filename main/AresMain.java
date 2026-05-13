@@ -24,7 +24,7 @@ public class AresMain {
         MovementInterface movement = new MovementInterface(engine);
         SensorInterface sensors = new SensorInterface(engine);
     
-        engine.setInterfaces(science, view);
+        engine.setInterfaces(science, sensors);
     
         // CENTER STACK
         JPanel uiStack = new JPanel();
