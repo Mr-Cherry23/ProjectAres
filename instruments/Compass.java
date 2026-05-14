@@ -109,12 +109,12 @@ public class Compass extends JPanel {
             g2.translate(centerX, centerY);
             g2.rotate(cameraAngle - heading);
             g2.setColor(Color.BLACK);
-            g2.setStroke(new BasicStroke(2));
+            g2.setStroke(new BasicStroke(3));
             g2.drawLine( 0, 0, 0, -radius + 40);
         } else {
             g2.translate(centerX, centerY);
             g2.setColor(Color.BLACK);
-            g2.setStroke(new BasicStroke(2));
+            g2.setStroke(new BasicStroke(3));
             g2.drawLine( 0, 0, 0, -radius + 40);
         }
 

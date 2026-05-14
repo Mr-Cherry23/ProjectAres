@@ -1,16 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class ScienceInterface extends JPanel {
-
+public class ScienceDisplay extends JPanel {
     RenderEngine engine;
-    JLabel positionXLabel;
-    JLabel positionZLabel;
 
-    public ScienceInterface(RenderEngine engine) {
+    public ScienceDisplay(RenderEngine engine) {
         this.engine = engine;
 
-        setLayout(new GridBagLayout());
+        setLayout(new GridLayout(1,1));
         setPreferredSize(new Dimension(426, 200));
         setBackground(Color.WHITE);
 
@@ -36,9 +33,7 @@ public class ScienceInterface extends JPanel {
     }
 
     void updateReadings() {
-        
-        positionXLabel.setText(String.format("%.2f", engine.playerPosX));
-        positionZLabel.setText(String.format("%.2f", engine.playerPosZ));
+
         
     }
 
