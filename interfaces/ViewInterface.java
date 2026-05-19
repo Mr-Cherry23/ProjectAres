@@ -13,7 +13,7 @@ public class ViewInterface extends JPanel {
         initUI();
     }
 
-    void initUI() {
+    private void initUI() {
         GridBagConstraints i = new GridBagConstraints();
         i.fill = GridBagConstraints.BOTH;
         JButton left = new JButton("<=");

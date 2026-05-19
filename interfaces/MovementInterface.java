@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MovementInterface extends JPanel {
-
     RenderEngine engine;
 
     public MovementInterface(RenderEngine engine) {
@@ -15,7 +14,7 @@ public class MovementInterface extends JPanel {
         initUI();
     }
 
-    void initUI() {
+    private void initUI() {
         GridBagConstraints i = new GridBagConstraints();
         i.fill = GridBagConstraints.BOTH;
         JButton left = new JButton("<=");

@@ -5,7 +5,8 @@
         "instruments",
         "interfaces",
         "science",
-        "sites"    
+        "sites",
+        "experiments" 
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [

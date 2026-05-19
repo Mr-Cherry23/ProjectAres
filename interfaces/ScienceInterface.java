@@ -17,16 +17,14 @@ public class ScienceInterface extends JPanel {
         initUI();
     }
 
-    void initUI() {
+    private void initUI() {
         GridBagConstraints i = new GridBagConstraints();
         i.fill = GridBagConstraints.BOTH;
-
 
         i.weightx = 1;
         i.weighty = 1;
         i.gridx = 0;
         i.gridy = 0;
-
 
         i.weightx = 1;
         i.weighty = 1;
@@ -35,7 +33,7 @@ public class ScienceInterface extends JPanel {
 
     }
 
-    void updateReadings() {
+    public void updateReadings() {
         
         positionXLabel.setText(String.format("%.2f", engine.playerPosX));
         positionZLabel.setText(String.format("%.2f", engine.playerPosZ));
