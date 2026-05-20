@@ -1,4 +1,8 @@
-public abstract class Experiment{
+import java.awt.*;
+
+import javax.swing.JPanel;
+
+public abstract class Experiment extends JPanel{
     String name;
     long experimentId;
     double condition;
@@ -40,5 +44,9 @@ public abstract class Experiment{
 
     public boolean[] getSitesApplicable() {
         return this.sitesApplicable;
+    }
+
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
     }
 }

@@ -35,11 +35,10 @@ public class AresMain {
         );
     
         uiStack.add(view);
-        uiStack.add(science);
         uiStack.add(movement);
         uiStack.add(sensors);
     
-        // add to frame
+        frame.add(science, BorderLayout.WEST);
         frame.add(engine, BorderLayout.CENTER);
         frame.add(uiStack, BorderLayout.EAST);
     

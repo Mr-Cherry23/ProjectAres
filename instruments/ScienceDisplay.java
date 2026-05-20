@@ -3,9 +3,11 @@ import java.awt.*;
 
 public class ScienceDisplay extends JPanel {
     RenderEngine engine;
+    Experiment experiment;
 
-    public ScienceDisplay(RenderEngine engine) {
+    public ScienceDisplay(RenderEngine engine, Experiment experiment) {
         this.engine = engine;
+        this.experiment = experiment;
 
         setLayout(new GridLayout(1,1));
         setPreferredSize(new Dimension(426, 200));
@@ -15,26 +17,11 @@ public class ScienceDisplay extends JPanel {
     }
 
     void initUI() {
-        GridBagConstraints i = new GridBagConstraints();
-        i.fill = GridBagConstraints.BOTH;
-
-
-        i.weightx = 1;
-        i.weighty = 1;
-        i.gridx = 0;
-        i.gridy = 0;
-
-
-        i.weightx = 1;
-        i.weighty = 1;
-        i.gridx = 0;
-        i.gridy = 1;
-
+        add(experiment);
     }
 
     void updateReadings() {
-
-        
+        experiment.repaint();
     }
 
 
