@@ -28,14 +28,11 @@ public class Thermometer extends Experiment {
         int bulbY = tubeY + tubeHeight;
         int bulbRadius = 20;
 
-        // Draw thermometer tube
         g2.setColor(Color.WHITE);
         g2.fillRect(tubeX, tubeY, tubeWidth, tubeHeight);
         g2.setColor(Color.BLACK);
         g2.setStroke(new BasicStroke(2));
         g2.drawRect(tubeX, tubeY, tubeWidth, tubeHeight);
-
-        // Draw bulb
         g2.setColor(Color.WHITE);
         g2.fillOval(centerX - bulbRadius, bulbY - bulbRadius, bulbRadius * 2, bulbRadius * 2);
         g2.setColor(Color.BLACK);
@@ -46,12 +43,9 @@ public class Thermometer extends Experiment {
         double tempNormalized = (temperature - MIN_TEMP) / tempRange;
         int mercuryHeight = (int) (tubeHeight * tempNormalized);
         int mercuryY = tubeY + tubeHeight - mercuryHeight;
-
-        // Draw mercury
         g2.setColor(new Color(200, 50, 50));
         g2.fillRect(tubeX + 2, mercuryY, tubeWidth - 4, mercuryHeight);
 
-        // Draw temperature scale
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("Arial", Font.PLAIN, 10));
         for (int i = 0; i <= 10; i++) {
@@ -61,7 +55,6 @@ public class Thermometer extends Experiment {
             g2.drawString((int) temp + "°", tubeX - 40, y + 4);
         }
 
-        // Display current temperature
         g2.setFont(new Font("Arial", Font.BOLD, 16));
         g2.drawString(String.format("%.1f°C", temperature), centerX - 30, height - 20);
     }
