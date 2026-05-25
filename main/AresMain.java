@@ -16,7 +16,8 @@ public class AresMain {
         frame.setSize(1920, 1080);
     
         // MAIN LAYOUT
-        frame.setLayout(new BorderLayout());
+        frame.setLayout(null);
+
     
         RenderEngine engine = new RenderEngine();
     
@@ -24,23 +25,23 @@ public class AresMain {
         ScienceInterface science = new ScienceInterface(engine);
         MovementInterface movement = new MovementInterface(engine);
         SensorInterface sensors = new SensorInterface(engine);
+
+        DraggablePanel viewPanel = new DraggablePanel(view);
+        DraggablePanel sciencePanel = new DraggablePanel(science);
+        DraggablePanel movementPanel = new DraggablePanel(movement);
+        DraggablePanel sensorPanel = new DraggablePanel(sensors);
+        DraggablePanel enginePanel = new DraggablePanel(engine);
     
         engine.setInterfaces(science, sensors);
     
         // CENTER STACK
-        JPanel uiStack = new JPanel();
+
     
-        uiStack.setLayout(
-            new BoxLayout(uiStack, BoxLayout.Y_AXIS)
-        );
-    
-        uiStack.add(view);
-        uiStack.add(movement);
-        uiStack.add(sensors);
-    
-        frame.add(science, BorderLayout.WEST);
-        frame.add(engine, BorderLayout.CENTER);
-        frame.add(uiStack, BorderLayout.EAST);
+        frame.add(viewPanel);
+        frame.add(sciencePanel);
+        frame.add(movementPanel);
+        frame.add(sensorPanel);
+        frame.add(enginePanel);
     
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
