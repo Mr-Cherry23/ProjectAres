@@ -6,6 +6,7 @@ public class ScienceInterface extends JPanel {
     RenderEngine engine;
     ScienceDisplay scienceDisplay;
     Thermometer thermometer;
+    HandLenseImager mahli;
 
     public ScienceInterface(RenderEngine engine) {
         this.engine = engine;
@@ -19,7 +20,9 @@ public class ScienceInterface extends JPanel {
 
     private void initUI() {
         thermometer = new Thermometer(1);
+        mahli = new HandLenseImager(2);
         scienceDisplay = new ScienceDisplay(engine, thermometer);
+        scienceDisplay = new ScienceDisplay(engine, mahli);
         scienceDisplay.setPreferredSize(new Dimension(400, 200));
         scienceDisplay.updateReadings();
         add(scienceDisplay);
