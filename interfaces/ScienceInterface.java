@@ -20,13 +20,13 @@ public class ScienceInterface extends JPanel {
 
     private void initUI(int experimentId) {
         if (experimentId == 1) {
-            thermometer = new Thermometer(experimentId);
+            thermometer = new Thermometer(experimentId, engine);
             thermometer.setPreferredSize(new Dimension(400, 200));
             add(thermometer);
         } else if (experimentId == 2) {
-            mahli = new HandLenseImager(experimentId);
+            mahli = new HandLenseImager(experimentId, engine);
             mahli.setPreferredSize(new Dimension(400, 200));
-            add(mahli.getPanel());
+            add(mahli.getMahli());
         }
     }
 

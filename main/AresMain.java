@@ -22,23 +22,23 @@ public class AresMain {
         RenderEngine engine = new RenderEngine();
     
         ViewInterface view = new ViewInterface(engine);
-        ScienceInterface thermometer = new ScienceInterface(engine, 1);
+        //ScienceInterface thermometer = new ScienceInterface(engine, 1);
         ScienceInterface mahli = new ScienceInterface(engine, 2);
         MovementInterface movement = new MovementInterface(engine);
         SensorInterface sensors = new SensorInterface(engine);
 
         DraggablePanel viewPanel = new DraggablePanel(view);
-        DraggablePanel theermometerPanel = new DraggablePanel(thermometer);
+        //DraggablePanel thermometerPanel = new DraggablePanel(thermometer);
         DraggablePanel mahliPanel = new DraggablePanel(mahli);
         DraggablePanel movementPanel = new DraggablePanel(movement);
         DraggablePanel sensorPanel = new DraggablePanel(sensors);
         DraggablePanel enginePanel = new DraggablePanel(engine);
     
-        engine.setInterfaces(thermometer, sensors);
+        engine.setInterfaces(mahli, sensors);
     
     
         frame.add(viewPanel);
-        frame.add(theermometerPanel);
+        //frame.add(thermometerPanel);
         frame.add(mahliPanel);
         frame.add(movementPanel);
         frame.add(sensorPanel);

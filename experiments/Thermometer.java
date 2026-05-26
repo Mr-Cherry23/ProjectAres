@@ -2,12 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Thermometer extends Experiment {
+    RenderEngine engine;
+
     private double temperature = 20.0;
     private final double MIN_TEMP = -40.0;
     private final double MAX_TEMP = 50.0;
 
-    public Thermometer(long ID) {
+    public Thermometer(long ID, RenderEngine engine) {
         super("thermometer", ID, new boolean[] {true,true,true,true,true});
+        this.engine = engine;
     }
 
     @Override
