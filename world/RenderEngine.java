@@ -47,6 +47,7 @@ public class RenderEngine extends JPanel {
         features.add(new Rock(730, 1670, 2));
         features.add(new Rock(850, 1670, 3));
         features.add(new Rock(800, 500, 5));
+        features.add(new Rock(670, 676, 8));
 
         Timer timer = new Timer(16, e -> {
             repaint();
