@@ -4,32 +4,34 @@ import java.awt.*;
 public class ScienceInterface extends JPanel {
 
     RenderEngine engine;
-    ScienceDisplay scienceDisplay;
     Thermometer thermometer;
     HandLenseImager mahli;
+    Experiment experiment;
 
-    public ScienceInterface(RenderEngine engine) {
+    public ScienceInterface(RenderEngine engine, int experimentId) {
         this.engine = engine;
 
         setLayout(new GridLayout());
         setPreferredSize(new Dimension(426, 200));
         setBackground(Color.WHITE);
 
-        initUI();
+        initUI(experimentId);
     }
 
-    private void initUI() {
-        thermometer = new Thermometer(1);
-        mahli = new HandLenseImager(2);
-        scienceDisplay = new ScienceDisplay(engine, thermometer);
-        scienceDisplay = new ScienceDisplay(engine, mahli);
-        scienceDisplay.setPreferredSize(new Dimension(400, 200));
-        scienceDisplay.updateReadings();
-        add(scienceDisplay);
+    private void initUI(int experimentId) {
+        if (experimentId == 1) {
+            thermometer = new Thermometer(experimentId);
+            thermometer.setPreferredSize(new Dimension(400, 200));
+            add(thermometer);
+        } else if (experimentId == 2) {
+            mahli = new HandLenseImager(experimentId);
+            mahli.setPreferredSize(new Dimension(400, 200));
+            add(mahli.getPanel());
+        }
     }
 
     public void updateReadings() {
-        scienceDisplay.updateReadings();
+        thermometer.updateReadings();
     }
 
 
