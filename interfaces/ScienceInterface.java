@@ -12,7 +12,6 @@ public class ScienceInterface extends JPanel {
         this.engine = engine;
 
         setLayout(new GridLayout());
-        setPreferredSize(new Dimension(426, 200));
         setBackground(Color.WHITE);
 
         initUI(experimentId);
@@ -25,8 +24,8 @@ public class ScienceInterface extends JPanel {
             add(thermometer);
         } else if (experimentId == 2) {
             mahli = new HandLenseImager(experimentId, engine);
-            mahli.setPreferredSize(new Dimension(400, 200));
-            add(mahli.getMahli());
+            mahli.setPreferredSize(new Dimension(400, 350));
+            add(mahli);
         }
     }
 

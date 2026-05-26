@@ -6,14 +6,13 @@ import java.awt.image.BufferedImage;
 
 public class HandLenseImager extends Experiment { 
     private RenderEngine engine;
-    private JPanel mahli;
     private BufferedImage image;
 
     public HandLenseImager(long ID, RenderEngine engine) {
         super("MaHLI (MarsHandLenseImager)", ID, new boolean[] {true, true, true, true, true});
         this.engine = engine;
-        mahli = new JPanel();
-        mahli.setLayout(new BorderLayout());
+        
+        setLayout(new BorderLayout());
 
         try {
             image = ImageIO.read(new File("res/experimentImages/mahli/image1.png"));
@@ -24,26 +23,36 @@ public class HandLenseImager extends Experiment {
 
         ImageIcon imageIcon = new ImageIcon(image);
         JLabel imageLabel = new JLabel(imageIcon);
-        mahli.add(imageLabel, BorderLayout.CENTER);
+        add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
-        JButton zoomInButton = new JButton("Zoom In");
-        JButton zoomOutButton = new JButton("Zoom Out");
-        JButton captureButton = new JButton("Capture");
+        buttonPanel.setPreferredSize(new Dimension(400, 50));
+        JButton zoomIn = new JButton("Zoom In");
+        zoomIn.addActionListener(event -> zoomIn());
+        JButton zoomOut = new JButton("Zoom Out");
+        zoomIn.addActionListener(event -> zoomOut());
+        JButton capture = new JButton("Capture");
+        zoomIn.addActionListener(event -> capture());
 
-        buttonPanel.add(zoomInButton);
-        buttonPanel.add(zoomOutButton);
-        buttonPanel.add(captureButton);
+        buttonPanel.add(zoomIn);
+        buttonPanel.add(zoomOut);
+        buttonPanel.add(capture);
     
-        mahli.add(buttonPanel, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    public JPanel getMahli() {
-        return mahli;
-    }
-    
+    private void zoomIn() {
 
-    
-    
+    }
+
+    private void zoomOut() {
+
+    }
+
+    private void capture() {
+
+    }
+
+
 }
