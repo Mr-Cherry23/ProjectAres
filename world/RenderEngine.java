@@ -38,7 +38,7 @@ public class RenderEngine extends JPanel {
             playerPosZ = heightMap.getHeight() / 2.0;
     
         } catch (Exception error) {
-            error.printStackTrace();
+            System.out.println(error);
             System.exit(1);
         }
         
@@ -183,11 +183,11 @@ public class RenderEngine extends JPanel {
 
         Color terrainColor = new Color(textureMap.getRGB(ix, iz));
 
-        for (Feature f : features) {
+        for (Feature feature : features) {
 
-            if (f instanceof Rock) {
+            if (feature instanceof Rock) {
 
-                Rock rock = (Rock) f;
+                Rock rock = (Rock) feature;
 
                 double dx = x - rock.x;
                 double dz = z - rock.z;
