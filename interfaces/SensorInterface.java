@@ -11,7 +11,7 @@ public class SensorInterface extends JPanel {
 
     public SensorInterface(RenderEngine engine) {
         this.engine = engine;
-        setPreferredSize(new Dimension(426, 500));
+        setPreferredSize(new Dimension(400, 500));
         setBackground(Color.DARK_GRAY);
         setLayout(new GridBagLayout());
         initUI();

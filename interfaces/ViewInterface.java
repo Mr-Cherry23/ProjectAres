@@ -7,7 +7,7 @@ public class ViewInterface extends JPanel {
 
     public ViewInterface(RenderEngine engine) {
         this.engine = engine;
-        setPreferredSize(new Dimension(426, 500));
+        setPreferredSize(new Dimension(200, 200));
         setBackground(Color.DARK_GRAY);
         setLayout(new GridBagLayout());
         initUI();

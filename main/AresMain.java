@@ -30,7 +30,12 @@ public class AresMain {
         DraggablePanel enginePanel = new DraggablePanel(engine);
     
         engine.setInterfaces(mahli, sensors);
-    
+        
+        enginePanel.setLocation(640, 0);
+        viewPanel.setLocation(640, 720);
+        movementPanel.setLocation(840, 720);
+        sensorPanel.setLocation(240, 0);
+
         frame.add(viewPanel);
         //frame.add(thermometerPanel);
         frame.add(mahliPanel);

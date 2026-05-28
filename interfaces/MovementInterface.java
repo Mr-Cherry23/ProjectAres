@@ -8,8 +8,8 @@ public class MovementInterface extends JPanel {
         this.engine = engine;
 
         setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(426, 200));
-        setBackground(Color.DARK_GRAY);
+        setPreferredSize(new Dimension(200, 200));
+        setBackground(Color.BLUE);
 
         initUI();
     }
