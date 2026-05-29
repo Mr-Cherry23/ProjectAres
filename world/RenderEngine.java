@@ -30,8 +30,8 @@ public class RenderEngine extends JPanel {
     public RenderEngine() {
 
         try {
-            heightMap = ImageIO.read(new File("res/map2/heightmap2.png"));
-            textureMap = ImageIO.read(new File("res/map2/texturemap2.png"));
+            heightMap = ImageIO.read(new File("res/map3/heightmap3.png"));
+            textureMap = ImageIO.read(new File("res/map3/texturemap3.png"));
             rockTexture = ImageIO.read(new File("res/other/rock.png"));
             
             playerPosX = heightMap.getWidth() / 2.0;
