@@ -21,12 +21,14 @@ public class AresMain {
         ScienceInterface mahli = new ScienceInterface(engine, 2);
         MovementInterface movement = new MovementInterface(engine);
         SensorInterface sensors = new SensorInterface(engine);
+        PowerInterface power = new PowerInterface(engine);
 
         DraggablePanel viewPanel = new DraggablePanel(view);
         //DraggablePanel thermometerPanel = new DraggablePanel(thermometer);
         DraggablePanel mahliPanel = new DraggablePanel(mahli);
         DraggablePanel movementPanel = new DraggablePanel(movement);
         DraggablePanel sensorPanel = new DraggablePanel(sensors);
+        DraggablePanel powerPanel = new DraggablePanel(power);
         DraggablePanel enginePanel = new DraggablePanel(engine);
     
         engine.setInterfaces(mahli, sensors);
@@ -35,12 +37,14 @@ public class AresMain {
         viewPanel.setLocation(640, 720);
         movementPanel.setLocation(840, 720);
         sensorPanel.setLocation(240, 0);
+        powerPanel.setLocation(0, 500);
 
         frame.add(viewPanel);
         //frame.add(thermometerPanel);
         frame.add(mahliPanel);
         frame.add(movementPanel);
         frame.add(sensorPanel);
+        frame.add(powerPanel);
         frame.add(enginePanel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
