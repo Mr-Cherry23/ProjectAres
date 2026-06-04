@@ -7,12 +7,14 @@ public class PowerInterface extends JPanel{
     public PowerInterface(RenderEngine engine) {
         setPreferredSize(new Dimension(500, 500));
         repaint();
+        
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-    
+        int x = 0; // top-left x of the image
+        int y = 0; // top-left y of the image
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -20,83 +22,84 @@ public class PowerInterface extends JPanel{
         g2.fillRect(0, 0, getWidth(), getHeight());
 
         g2.setColor(new Color(210, 210, 210));
-        g2.fillRect(215, 50, 70, 90);
-
+        g2.fillRect(x + 25, y + 0, 70, 90);
+        
         Polygon finCleanup = new Polygon();
-        finCleanup.addPoint(215, 50);
-        finCleanup.addPoint(230, 65);
-        finCleanup.addPoint(270, 65);
-        finCleanup.addPoint(285, 50);
-
+        finCleanup.addPoint(x + 25, y + 0);
+        finCleanup.addPoint(x + 40, y + 15);
+        finCleanup.addPoint(x + 80, y + 15);
+        finCleanup.addPoint(x + 95, y + 0);
+        
         g2.setColor(Color.WHITE);
         g2.fillPolygon(finCleanup);
-
-        g2.setColor(new Color(180, 180, 180));
-        g2.fillOval(220, 255, 60, 35);
-        g2.setColor(Color.BLACK);
-        g2.drawOval(220, 255, 60, 35);
-
-
-        g2.setColor(new Color(180, 180, 180));
-        g2.fillRect(220, 80, 60, 190);
-
-        g2.setColor(new Color(180, 180, 180));
-        g2.fillOval(220, 60, 60, 35);
-        g2.setColor(Color.BLACK);
-        g2.drawOval(220, 60, 60, 35);  
-
-        g2.setColor(Color.BLACK);
-        g2.drawLine(220, 80, 220, 269);
-        g2.drawLine(280, 80, 280, 269);
-
-        g2.setColor(Color.BLACK);
-        g2.drawLine(230, 90, 230, 285);
-        g2.drawLine(270, 90, 270, 285);
         
         g2.setColor(new Color(180, 180, 180));
-        g2.fillRect(230, 90, 40, 180);
+        g2.fillOval(x + 30, y + 205, 60, 35);
         g2.setColor(Color.BLACK);
-        g2.drawLine(230, 90, 230, 270);
-        g2.drawLine(270, 90, 270, 270);
-        g2.drawLine(250, 80, 250, 270);
-        g2.drawLine(250, 270, 230, 285);
-        g2.drawLine(250, 270, 270, 285);
-        g2.drawLine(250, 80, 230, 90);
-        g2.drawLine(250, 80, 270, 90);
+        g2.drawOval(x + 30, y + 205, 60, 35);
+        
+        g2.setColor(new Color(180, 180, 180));
+        g2.fillRect(x + 30, y + 30, 60, 190);
+        
+        g2.setColor(new Color(180, 180, 180));
+        g2.fillOval(x + 30, y + 10, 60, 35);
+        g2.setColor(Color.BLACK);
+        g2.drawOval(x + 30, y + 10, 60, 35);
+        
+        g2.setColor(Color.BLACK);
+        g2.drawLine(x + 30, y + 30, x + 30, y + 219);
+        g2.drawLine(x + 90, y + 30, x + 90, y + 219);
+        
+        g2.setColor(Color.BLACK);
+        g2.drawLine(x + 40, y + 40, x + 40, y + 235);
+        g2.drawLine(x + 80, y + 40, x + 80, y + 235);
+        
+        g2.setColor(new Color(180, 180, 180));
+        g2.fillRect(x + 40, y + 40, 40, 180);
+        g2.setColor(Color.BLACK);
+        g2.drawLine(x + 40, y + 40, x + 40, y + 220);
+        g2.drawLine(x + 80, y + 40, x + 80, y + 220);
+        g2.drawLine(x + 60, y + 30, x + 60, y + 220);
+        g2.drawLine(x + 60, y + 220, x + 40, y + 235);
+        g2.drawLine(x + 60, y + 220, x + 80, y + 235);
+        g2.drawLine(x + 60, y + 30, x + 40, y + 40);
+        g2.drawLine(x + 60, y + 30, x + 80, y + 40);
         
         Polygon pu238 = new Polygon();
-        pu238.addPoint(235, 110);
-        pu238.addPoint(250, 105);
-        pu238.addPoint(265, 110);
-        pu238.addPoint(265, 260);
-        pu238.addPoint(235, 260);
-
+        pu238.addPoint(x + 45, y + 60);
+        pu238.addPoint(x + 60, y + 55);
+        pu238.addPoint(x + 75, y + 60);
+        pu238.addPoint(x + 75, y + 210);
+        pu238.addPoint(x + 45, y + 210);
+        
         Polygon fin = new Polygon();
-        fin.addPoint(220, 80);
-        fin.addPoint(220, 275);
-        fin.addPoint(190, 275);
-        fin.addPoint(190, 80);
-
+        fin.addPoint(x + 30, y + 30);
+        fin.addPoint(x + 30, y + 225);
+        fin.addPoint(x + 0, y + 225);
+        fin.addPoint(x + 0, y + 30);
+        
         Polygon fin2 = new Polygon();
-        fin2.addPoint(280, 80);
-        fin2.addPoint(280, 275);
-        fin2.addPoint(310, 275);
-        fin2.addPoint(310, 80);
-
+        fin2.addPoint(x + 90, y + 30);
+        fin2.addPoint(x + 90, y + 225);
+        fin2.addPoint(x + 120, y + 225);
+        fin2.addPoint(x + 120, y + 30);
+        
         g2.setColor(new Color(220, 120, 80));
         g2.fillPolygon(pu238);
         g2.setColor(new Color(230, 230, 230));
         g2.fillPolygon(fin);
         g2.fillPolygon(fin2);
+        
         g2.setColor(Color.BLACK);
         g2.drawPolygon(pu238);
         g2.drawPolygon(fin);
         g2.drawPolygon(fin2);
-        g2.drawLine(235, 110, 265, 110);
-        g2.drawLine(230, 65, 215, 50);
-        g2.drawLine(215, 50, 215, 80);
-        g2.drawLine(270, 65, 285, 50);
-        g2.drawLine(285, 50, 285, 80);
+        
+        g2.drawLine(x + 45, y + 60, x + 75, y + 60);
+        g2.drawLine(x + 40, y + 15, x + 25, y + 0);
+        g2.drawLine(x + 25, y + 0, x + 25, y + 30);
+        g2.drawLine(x + 80, y + 15, x + 95, y + 0);
+        g2.drawLine(x + 95, y + 0, x + 95, y + 30);
 
 
         
