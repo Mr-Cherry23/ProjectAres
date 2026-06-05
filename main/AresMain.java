@@ -40,14 +40,14 @@ public class AresMain {
         movementPanel.setLocation(840, 720);
         sensorPanel.setLocation(240, 0);
         powerPanel.setLocation(0, 500);
-        commsPanel.setLocation(1040, 720);
+        commsPanel.setLocation(0, 520);
 
         frame.add(viewPanel);
         //frame.add(thermometerPanel);
         frame.add(mahliPanel);
         frame.add(movementPanel);
         frame.add(sensorPanel);
-        frame.add(powerPanel);
+        //frame.add(powerPanel);
         frame.add(commsPanel);
         frame.add(enginePanel);
         frame.setLocationRelativeTo(null);
