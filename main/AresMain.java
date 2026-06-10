@@ -9,10 +9,16 @@ public class AresMain {
     public void init() {
 
         JFrame frame = new JFrame("Project Ares");
+        JTabbedPane tabbedPane = new JTabbedPane();
+        JPanel mainPane = new JPanel();
+        JPanel sciencePane = new JPanel();
+        JPanel communicationsPane = new JPanel();
     
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1920, 1080);
         frame.setLayout(null);
+
+        tabbedPane.setBounds(0, 0, 1920, 1080);
 
         RenderEngine engine = new RenderEngine();
     
@@ -42,14 +48,20 @@ public class AresMain {
         powerPanel.setLocation(0, 500);
         commsPanel.setLocation(0, 520);
 
-        frame.add(viewPanel);
+        mainPane.add(viewPanel);
         //frame.add(thermometerPanel);
-        frame.add(mahliPanel);
-        frame.add(movementPanel);
-        frame.add(sensorPanel);
-        //frame.add(powerPanel);
-        frame.add(commsPanel);
-        frame.add(enginePanel);
+        sciencePane.add(mahliPanel);
+        mainPane.add(movementPanel);
+        mainPane.add(sensorPanel);
+        communicationsPane.add(powerPanel);
+        communicationsPane.add(commsPanel);
+        mainPane.add(enginePanel);
+
+        tabbedPane.addTab("main", mainPane );
+        tabbedPane.addTab("science", sciencePane );
+        tabbedPane.addTab("communications & power", communicationsPane);
+
+        frame.add(tabbedPane);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
