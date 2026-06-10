@@ -19,6 +19,10 @@ public class HandLenseImager extends Experiment {
 
         this.engine = engine;
 
+        // gameplay: set power and data characteristics
+        this.runPowerCost = 8.0; // power units to run a capture
+        this.dataSizeKB = 800; // approximate image size in KB
+
         setLayout(new BorderLayout());
 
         try {
@@ -26,7 +30,7 @@ public class HandLenseImager extends Experiment {
                 new File("res/experimentImages/mahli/image1.png")
             );
         } catch (Exception error) {
-            System.out.println(error);
+            ConsolePanel.log("[HandLenseImager] " + error.toString());
             return;
         }
 
@@ -129,6 +133,7 @@ public class HandLenseImager extends Experiment {
     }
 
     private void capture() {
-        System.out.println("Capture image");
+        ConsolePanel.log("Capture requested: attempting to run MaHLI");
+        runAndTransmit();
     }
 }

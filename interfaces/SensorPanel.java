@@ -1,15 +1,13 @@
-
 import javax.swing.*;
-
 import java.awt.*;
 
-public class SensorInterface extends JPanel {
+public class SensorPanel extends JPanel {
     final static boolean shouldFill = true;
     RenderEngine engine;
     Compass compass;
     Inclinometer inclinometer;
 
-    public SensorInterface(RenderEngine engine) {
+    public SensorPanel(RenderEngine engine) {
         this.engine = engine;
         setPreferredSize(new Dimension(400, 500));
         setBackground(Color.DARK_GRAY);

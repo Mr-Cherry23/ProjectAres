@@ -8,8 +8,9 @@ import javax.imageio.ImageIO;
 
 public class RenderEngine extends JPanel {
 
-    ScienceInterface scienceInterface;
-    SensorInterface sensors;
+    SciencePanel sciencePanel;
+    SensorPanel sensors;
+
 
     BufferedImage heightMap;
     BufferedImage textureMap;
@@ -38,7 +39,7 @@ public class RenderEngine extends JPanel {
             playerPosZ = heightMap.getHeight() / 2.0;
     
         } catch (Exception error) {
-            System.out.println(error);
+            ConsolePanel.log("[RenderEngine] " + error.toString());
             System.exit(1);
         }
         
@@ -57,8 +58,8 @@ public class RenderEngine extends JPanel {
         timer.start();
     }
 
-    void setInterfaces(ScienceInterface scienceInterface, SensorInterface sensors) {
-        this.scienceInterface = scienceInterface;
+    void setInterfaces(SciencePanel sciencePanel, SensorPanel sensors) {
+        this.sciencePanel = sciencePanel;
         this.sensors = sensors;
     }
     
@@ -73,12 +74,27 @@ public class RenderEngine extends JPanel {
     }
 
     public void turnLeft() {
+        // consume a small amount of power for turning
+        double turnCost = 0.25;
+        if (GameState.powerManager != null) {
+            if (!GameState.powerManager.consume(turnCost)) {
+                ConsolePanel.log("[RenderEngine] Not enough power to turn left");
+                return;
+            }
+        }
         roverAttitude[0] -= Math.toRadians(15);
         cameraAngle -= Math.toRadians(15);
         sensors.updateReadings();
     }
 
     public void turnRight() {
+        double turnCost = 0.25;
+        if (GameState.powerManager != null) {
+            if (!GameState.powerManager.consume(turnCost)) {
+                ConsolePanel.log("[RenderEngine] Not enough power to turn right");
+                return;
+            }
+        }
         roverAttitude[0] += Math.toRadians(15);
         cameraAngle += Math.toRadians(15);
         sensors.updateReadings();
@@ -97,6 +113,13 @@ public class RenderEngine extends JPanel {
     }
 
     public void moveForward() {
+        double moveCost = 1.0; // power per move
+        if (GameState.powerManager != null) {
+            if (!GameState.powerManager.consume(moveCost)) {
+                ConsolePanel.log("[RenderEngine] Not enough power to move forward");
+                return;
+            }
+        }
         double speed = 5;
         playerPosX += Math.cos(roverAttitude[0]) * speed;
         playerPosZ += Math.sin(roverAttitude[0]) * speed;
@@ -104,6 +127,13 @@ public class RenderEngine extends JPanel {
     }
 
     public void moveBackward() {
+        double moveCost = 1.0; // power per move
+        if (GameState.powerManager != null) {
+            if (!GameState.powerManager.consume(moveCost)) {
+                ConsolePanel.log("[RenderEngine] Not enough power to move backward");
+                return;
+            }
+        }
         double speed = 5;
         playerPosX -= Math.cos(roverAttitude[0]) * speed;
         playerPosZ -= Math.sin(roverAttitude[0]) * speed;

@@ -2,9 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class CommunicationsInterface extends JPanel{
+public class CommunicationsPanel extends JPanel{
 
-    public CommunicationsInterface(RenderEngine engine) {
+    public CommunicationsPanel(RenderEngine engine) {
         setPreferredSize(new Dimension(640, 360));
 
     }

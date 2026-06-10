@@ -11,6 +11,20 @@ public class Thermometer extends Experiment {
     public Thermometer(long ID, RenderEngine engine) {
         super("thermometer", ID, new boolean[] {true,true,true,true,true});
         this.engine = engine;
+        // gameplay: small power cost and tiny data
+        this.runPowerCost = 1.0;
+        this.dataSizeKB = 5;
+
+        // add a simple sample button
+        JButton sample = new JButton("Sample");
+        sample.addActionListener(e -> {
+            // simulate reading change
+            double newTemp = MIN_TEMP + Math.random() * (MAX_TEMP - MIN_TEMP);
+            setTemperature(newTemp);
+            ConsolePanel.log("Thermometer: sample requested");
+            runAndTransmit();
+        });
+        this.add(sample);
     }
 
     @Override

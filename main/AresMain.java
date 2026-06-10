@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class AresMain {
 
@@ -18,39 +19,74 @@ public class AresMain {
         frame.setSize(1920, 1080);
         frame.setLayout(null);
 
+        mainPane.setLayout(null);
+        sciencePane.setLayout(null);
+        communicationsPane.setLayout(null);
+
         tabbedPane.setBounds(0, 0, 1920, 1080);
+        // Console UI
+        JTextArea consoleArea = new JTextArea();
+        consoleArea.setEditable(false);
+        JScrollPane consoleScroll = new JScrollPane(consoleArea);
+        JPanel consolePanel = new JPanel(new BorderLayout());
+        consolePanel.setPreferredSize(new Dimension(400, 200));
+        consolePanel.add(consoleScroll, BorderLayout.CENTER);
 
         RenderEngine engine = new RenderEngine();
-    
-        ViewInterface view = new ViewInterface(engine);
-        //ScienceInterface thermometer = new ScienceInterface(engine, 1);
-        ScienceInterface mahli = new ScienceInterface(engine, 2);
-        MovementInterface movement = new MovementInterface(engine);
-        SensorInterface sensors = new SensorInterface(engine);
-        PowerInterface power = new PowerInterface(engine);
-        CommunicationsInterface comms = new CommunicationsInterface(engine);
+        // set up gameplay managers
+        PowerManager pm = new PowerManager(100.0); // default daily budget
+        CommunicationsManager cm = new CommunicationsManager();
+        GameState.powerManager = pm;
+        GameState.communicationsManager = cm;
+        pm.startNewSol();
+
+        ViewPanel view = new ViewPanel(engine);
+        //SciencePanel thermometer = new SciencePanel(engine, 1);
+        SciencePanel mahli = new SciencePanel(engine, 2);
+        SciencePanel thermo = new SciencePanel(engine, 1);
+        SciencePanel spect = new SciencePanel(engine, 3);
+        SciencePanel soil = new SciencePanel(engine, 4);
+        MovementPanel movement = new MovementPanel(engine);
+        SensorPanel sensors = new SensorPanel(engine);
+        PowerPanel power = new PowerPanel(engine);
+        CommunicationsPanel comms = new CommunicationsPanel(engine);
 
         DraggablePanel viewPanel = new DraggablePanel(view);
         //DraggablePanel thermometerPanel = new DraggablePanel(thermometer);
         DraggablePanel mahliPanel = new DraggablePanel(mahli);
+        DraggablePanel thermoPanel = new DraggablePanel(thermo);
+        DraggablePanel spectPanel = new DraggablePanel(spect);
+        DraggablePanel soilPanel = new DraggablePanel(soil);
         DraggablePanel movementPanel = new DraggablePanel(movement);
         DraggablePanel sensorPanel = new DraggablePanel(sensors);
         DraggablePanel powerPanel = new DraggablePanel(power);
         DraggablePanel commsPanel = new DraggablePanel(comms);
         DraggablePanel enginePanel = new DraggablePanel(engine);
-    
+
+
+        DraggablePanel consoleDraggable = new DraggablePanel(consolePanel);
+        ConsolePanel.setTextArea(consoleArea);
+
         engine.setInterfaces(mahli, sensors);
         
-        enginePanel.setLocation(640, 0);
-        viewPanel.setLocation(640, 720);
-        movementPanel.setLocation(840, 720);
-        sensorPanel.setLocation(240, 0);
+        enginePanel.setLocation(0, 0);
+        consoleDraggable.setLocation(400, 720);
+        viewPanel.setLocation(0, 720);
+        movementPanel.setLocation(200, 720);
+        sensorPanel.setLocation(1280, 0);
+        
+        
         powerPanel.setLocation(0, 500);
         commsPanel.setLocation(0, 520);
+        
 
         mainPane.add(viewPanel);
+        mainPane.add(consoleDraggable);
         //frame.add(thermometerPanel);
         sciencePane.add(mahliPanel);
+        sciencePane.add(thermoPanel);
+        sciencePane.add(spectPanel);
+        sciencePane.add(soilPanel);
         mainPane.add(movementPanel);
         mainPane.add(sensorPanel);
         communicationsPane.add(powerPanel);

@@ -2,9 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class PowerInterface extends JPanel{
+public class RTGPanel extends JPanel{
 
-    public PowerInterface(RenderEngine engine) {
+    public RTGPanel(RenderEngine engine) {
         setPreferredSize(new Dimension(500, 500));
         repaint();
         
