@@ -49,6 +49,11 @@ public abstract class Experiment extends JPanel{
         return this.sitesApplicable;
     }
 
+        public void updateReadings() {
+        repaint();
+    }
+
+
     /**
      * Attempt to run the experiment, consuming power and returning a DataPacket
      * or null if there was not enough power.
@@ -76,7 +81,11 @@ public abstract class Experiment extends JPanel{
 
         ConsolePanel.log("[Experiment] Ran " + name + ", produced " + dataSizeKB + "KB");
         if (dataSizeKB > 0) {
-            return new DataPacket(name, dataSizeKB);
+            DataPacket pkt = new DataPacket(name, dataSizeKB);
+            if (GameState.missionManager != null) {
+                GameState.missionManager.reportExperimentRun(this);
+            }
+            return pkt;
         }
         return null;
     }
@@ -86,8 +95,13 @@ public abstract class Experiment extends JPanel{
      */
     public void runAndTransmit() {
         DataPacket pkt = runExperiment();
-        if (pkt != null && GameState.communicationsManager != null) {
-            GameState.communicationsManager.transmit(pkt);
+        if (pkt != null) {
+            if (GameState.communicationsManager != null) {
+                GameState.communicationsManager.enqueueOrTransmit(pkt);
+            } else {
+                GameState.storedData.add(pkt);
+                ConsolePanel.log("[Experiment] Stored '" + pkt.getNAME() + "' onboard (no communications manager)");
+            }
         }
     }
 

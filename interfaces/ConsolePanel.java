@@ -11,7 +11,7 @@ public class ConsolePanel {
         if (textArea != null) {
             final String msg = s;
             SwingUtilities.invokeLater(() -> {
-                textArea.append(msg + "\n");
+                textArea.append(msg + "\n\n");
                 textArea.setCaretPosition(textArea.getDocument().getLength());
             });
         }

@@ -24,4 +24,9 @@ public class DataPacket {
     public void setTransmitted(boolean transmitted) {
         this.transmitted = transmitted;
     }
+
+    @Override
+    public String toString() {
+        return NAME + " (" + SIZE + "KB)" + (transmitted ? " [TX]" : "");
+    }
 }

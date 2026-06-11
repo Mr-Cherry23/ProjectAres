@@ -58,6 +58,23 @@ public class RenderEngine extends JPanel {
         timer.start();
     }
 
+    // Expose map and player position for mission checks
+    public int getMapPixelWidth() {
+        return (heightMap != null) ? heightMap.getWidth() : 0;
+    }
+
+    public int getMapPixelHeight() {
+        return (heightMap != null) ? heightMap.getHeight() : 0;
+    }
+
+    public double getPlayerPosX() {
+        return playerPosX;
+    }
+
+    public double getPlayerPosZ() {
+        return playerPosZ;
+    }
+
     void setInterfaces(SciencePanel sciencePanel, SensorPanel sensors) {
         this.sciencePanel = sciencePanel;
         this.sensors = sensors;

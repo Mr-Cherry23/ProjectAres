@@ -1,18 +1,47 @@
 public class PowerManager {
-    private double dailyBudget;
+    private double baseDailyBudget;
     private double remaining;
     private int sol;
+    // RTG health 0..1
+    private double rtgHealth = 1.0;
+    private double minDecay = 0.005; // minimum decay per sol
+    private double maxDecay = 0.02;  // maximum decay per sol
 
-    public PowerManager(double dailyBudget) {
-        this.dailyBudget = dailyBudget;
-        this.remaining = dailyBudget;
+    public PowerManager(double baseDailyBudget) {
+        this.baseDailyBudget = baseDailyBudget;
+        this.remaining = baseDailyBudget;
         this.sol = 0;
+        this.rtgHealth = 1.0;
     }
 
     public void startNewSol() {
         sol++;
-        remaining = dailyBudget;
-        ConsolePanel.log("[PowerManager] Starting sol " + sol + ", budget=" + remaining);
+
+        // RTG decays overnight
+        if (rtgHealth > 0) {
+            double decay = minDecay + Math.random() * (maxDecay - minDecay);
+            rtgHealth = Math.max(0.0, rtgHealth - decay);
+        }
+
+        double currentBudget = getDailyBudget();
+        remaining = currentBudget;
+        ConsolePanel.log("[PowerManager] Starting sol " + sol + ", budget=" + remaining + ", RTG health=" + String.format("%.3f", rtgHealth));
+
+        // clear per-sol transmit queue at start of sol
+        if (GameState.communicationsManager != null) {
+            GameState.communicationsManager.clearThisSolQueue();
+        } else {
+            // fallback if there is no communications manager
+            if (GameState.toTransmitThisSol != null) GameState.toTransmitThisSol.clear();
+        }
+
+        if (GameState.commandScheduler != null) {
+            GameState.commandScheduler.runScheduledForNewSol();
+        }
+
+        if (GameState.missionManager != null) {
+            GameState.missionManager.onNewSol();
+        }
     }
 
     public boolean consume(double amount) {
@@ -31,7 +60,11 @@ public class PowerManager {
     }
 
     public double getDailyBudget() {
-        return dailyBudget;
+        return baseDailyBudget * rtgHealth;
+    }
+
+    public double getRTGHealth() {
+        return rtgHealth;
     }
 
     public int getSol() {
