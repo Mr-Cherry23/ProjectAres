@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class RenderEngine extends JPanel {
-
-    SciencePanel sciencePanel;
     SensorPanel sensors;
 
 
@@ -75,8 +73,7 @@ public class RenderEngine extends JPanel {
         return playerPosZ;
     }
 
-    void setInterfaces(SciencePanel sciencePanel, SensorPanel sensors) {
-        this.sciencePanel = sciencePanel;
+    void setSensors(SensorPanel sensors) {
         this.sensors = sensors;
     }
     

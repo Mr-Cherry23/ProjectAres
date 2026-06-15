@@ -84,7 +84,6 @@ public class RTGPanel extends JPanel{
         fin2.addPoint(x + 120, y + 225);
         fin2.addPoint(x + 120, y + 30);
         
-        // color the RTG core based on RTG health (1.0 bright pumpkin -> 0.0 dark mahogany)
         float health = 1.0f;
         if (GameState.powerManager != null) health = (float) GameState.powerManager.getRTGHealth();
         Color start = new Color(255, 117, 24); // pumpkin orange

@@ -8,9 +8,8 @@ public abstract class Experiment extends JPanel{
     double condition;
     boolean isPresent;
     boolean[] sitesApplicable = new boolean[5];
-    // gameplay fields
-    protected double runPowerCost = 0.0; // power cost to run this experiment once
-    protected int dataSizeKB = 0; // size of produced data in KB
+    protected double runPowerCost = 0.0;
+    protected int dataSizeKB = 0;
 
     public Experiment(String name, long ID, boolean[] sitesApplicable) {
         this.condition = 100;
@@ -54,10 +53,6 @@ public abstract class Experiment extends JPanel{
     }
 
 
-    /**
-     * Attempt to run the experiment, consuming power and returning a DataPacket
-     * or null if there was not enough power.
-     */
     public DataPacket runExperiment() {
         if (runPowerCost <= 0) {
             // no power required, produce data if any
@@ -90,9 +85,6 @@ public abstract class Experiment extends JPanel{
         return null;
     }
 
-    /**
-     * Run the experiment and attempt to auto-transmit the result.
-     */
     public void runAndTransmit() {
         DataPacket pkt = runExperiment();
         if (pkt != null) {
