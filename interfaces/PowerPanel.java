@@ -6,7 +6,7 @@ public class PowerPanel extends JPanel{
 
     public PowerPanel(RenderEngine engine) {
         this.engine = engine;
-        setPreferredSize(new Dimension(500, 500));
+        setPreferredSize(new Dimension(500, 220));
     }
 
     @Override
@@ -29,7 +29,7 @@ public class PowerPanel extends JPanel{
         double frac = (budget > 0) ? Math.max(0, Math.min(1, remaining / budget)) : 0;
 
         int x = 40;
-        int y = 40;
+        int y = 60;
         int w = Math.max(100, getWidth() - 160);
         int h = 80;
 
@@ -54,6 +54,8 @@ public class PowerPanel extends JPanel{
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("Arial", Font.BOLD, 14));
         g2.drawString(String.format("Power: %.1f / %.1f", remaining, budget), x, y + h + 20);
+        g2.setFont(new Font("Arial", Font.BOLD, 24));
+        g2.drawString("Rover Power Managment", 60, 40);
     }
 
     public void updateReadings() {

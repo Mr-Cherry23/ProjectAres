@@ -5,7 +5,7 @@ public class ConsolePanel extends JPanel{
     private static JTextArea textArea;
 
     public ConsolePanel() {
-        setPreferredSize(new Dimension(400, 240));
+        setPreferredSize(new Dimension(620, 500));
         setLayout(new BorderLayout());
         
         initUI();

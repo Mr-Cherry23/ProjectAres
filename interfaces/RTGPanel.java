@@ -13,8 +13,8 @@ public class RTGPanel extends JPanel{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int x = 0; // top-left x of the image
-        int y = 0; // top-left y of the image
+        int x = 220; // top-left x of the image
+        int y = 50; // top-left y of the image
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -109,7 +109,13 @@ public class RTGPanel extends JPanel{
         g2.drawLine(x + 80, y + 15, x + 95, y + 0);
         g2.drawLine(x + 95, y + 0, x + 95, y + 30);
 
-
+        g2.setColor(Color.BLACK);
+        g2.setFont(new Font("Arial", Font.BOLD, 14));
+        g2.drawString(String.format("RTG Efficiency: %.1f", health), 0, 20);
+        g2.drawString("Plutonium 238", 0, 50);
+        g2.drawString(String.format("Core Temperature: %.1f", health * 335), 0, 70);
+        g2.drawString("Estimated Sols Until", 0, 100);
+        g2.drawString(String.format("Rover Is Inoperable: %.1f", health / 0.01), 0, 120);
         
 
 

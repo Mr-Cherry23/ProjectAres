@@ -56,6 +56,7 @@ public class Spectrometer extends Experiment {
         generateDemoSpectrum();
 
         JPanel control = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel name = new JLabel("Atmospheric Atomic Spectrum");
         JButton measure = new JButton("Analyze");
         measure.addActionListener(e -> {
             ConsolePanel.log("Spectrometer: analysis requested");
@@ -70,6 +71,7 @@ public class Spectrometer extends Experiment {
                 plotPanel.repaint();
             }
         });
+        control.add(name);
         control.add(measure);
         add(control, BorderLayout.SOUTH);
     }

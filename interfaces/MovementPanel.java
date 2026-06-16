@@ -8,7 +8,7 @@ public class MovementPanel extends JPanel {
         this.engine = engine;
 
         setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(200, 200));
+        setPreferredSize(new Dimension(220, 250));
         setBackground(Color.BLUE);
 
         initUI();

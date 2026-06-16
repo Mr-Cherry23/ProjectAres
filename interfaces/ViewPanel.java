@@ -7,7 +7,7 @@ public class ViewPanel extends JPanel {
 
     public ViewPanel(RenderEngine engine) {
         this.engine = engine;
-        setPreferredSize(new Dimension(200, 200));
+        setPreferredSize(new Dimension(220, 250));
         setBackground(Color.DARK_GRAY);
         setLayout(new GridBagLayout());
         initUI();

@@ -2,14 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MissionPanel extends JPanel {
+    RenderEngine engine;
     private JLabel solLabel;
     private JLabel missionLabel;
     private JLabel remainingLabel;
     private JLabel statusLabel;
     private JLabel coordLabel;
 
-    public MissionPanel() {
-        setPreferredSize(new Dimension(300, 180));
+    public MissionPanel(RenderEngine engine) {
+        this.engine = engine;
+        setPreferredSize(new Dimension(400, 220));
         setLayout(new GridLayout(5,1));
         solLabel = new JLabel("Sol: -");
         missionLabel = new JLabel("Mission: none");
@@ -31,9 +33,9 @@ public class MissionPanel extends JPanel {
             int sol = (GameState.powerManager != null) ? GameState.powerManager.getSol() : 0;
             solLabel.setText("Sol: " + sol);
             Mission m = (GameState.missionManager != null) ? GameState.missionManager.getCurrent() : null;
-            double px = (GameState.engine != null) ? GameState.engine.getPlayerPosX() : 0.0;
-            double pz = (GameState.engine != null) ? GameState.engine.getPlayerPosZ() : 0.0;
-            coordLabel.setText(String.format("Pos: %d, %d", (int)px, (int)pz));
+            double posX = engine.getPlayerPosX();
+            double posZ = engine.getPlayerPosZ();
+            coordLabel.setText(String.format("Pos: %d, %d", (int)posX, (int)posZ));
 
             if (m == null) {
                 missionLabel.setText("Mission: none");

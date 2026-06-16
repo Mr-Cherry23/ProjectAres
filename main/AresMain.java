@@ -47,9 +47,11 @@ public class AresMain {
         DraggablePanel movementPanel = new DraggablePanel(new MovementPanel(engine));
         DraggablePanel powerPanel = new DraggablePanel(new PowerPanel(engine));
         DraggablePanel commsPanel = new DraggablePanel(new CommunicationsPanel(engine));
-        DraggablePanel commControlDraggable = new DraggablePanel(new CommControlPanel());
-        DraggablePanel missionDraggable = new DraggablePanel(new MissionPanel());
-        DraggablePanel consoleDraggable = new DraggablePanel(new ConsolePanel());
+        DraggablePanel commControlPanel = new DraggablePanel(new CommControlPanel());
+        DraggablePanel missionPanel = new DraggablePanel(new MissionPanel(engine));
+        DraggablePanel consolePanel = new DraggablePanel(new ConsolePanel());
+        DraggablePanel solControlPanel = new DraggablePanel(new SolControlPanel());
+        DraggablePanel rtgPanel = new DraggablePanel(new RTGPanel(engine));
         DraggablePanel sensorPanel = new DraggablePanel(sensors);
         DraggablePanel enginePanel = new DraggablePanel(engine);
 
@@ -57,30 +59,38 @@ public class AresMain {
         
         
         enginePanel.setLocation(0, 0);
-        consoleDraggable.setLocation(400, 720);
-        viewPanel.setLocation(0, 720);
-        missionDraggable.setLocation(600, 720);
-        movementPanel.setLocation(200, 720);
+        consolePanel.setLocation(1280, 500);
+        viewPanel.setLocation(1680, 250);
+        missionPanel.setLocation(0, 720);
+        solControlPanel.setLocation(340, 720);
+        movementPanel.setLocation(1680, 0);
         sensorPanel.setLocation(1280, 0);
-        powerPanel.setLocation(0, 500);
-        commsPanel.setLocation(0, 520);
-        commControlDraggable.setLocation(340, 500);
+        powerPanel.setLocation(0, 0);
+        commsPanel.setLocation(500, 0);
+        rtgPanel.setLocation(0, 220);
+        commControlPanel.setLocation(500, 360);
+        mahliPanel.setLocation(0, 0);
+        thermoPanel.setLocation(1500, 0);
+        spectPanel.setLocation(660, 0);
+        soilPanel.setLocation(660, 500);
+        solControlPanel.setLocation( 400, 720);
         
-
+        mainPane.add(enginePanel);
         mainPane.add(viewPanel);
-        mainPane.add(consoleDraggable);
-        mainPane.add(missionDraggable);
+        mainPane.add(consolePanel);
+        mainPane.add(solControlPanel);
+        mainPane.add(missionPanel);
+        mainPane.add(movementPanel);
+        mainPane.add(sensorPanel);
         sciencePane.add(mahliPanel);
         sciencePane.add(thermoPanel);
         sciencePane.add(spectPanel);
         sciencePane.add(soilPanel);
-        mainPane.add(movementPanel);
-        mainPane.add(sensorPanel);
         communicationsPane.add(powerPanel);
         communicationsPane.add(commsPanel);
-        communicationsPane.add(commControlDraggable);
-        mainPane.add(enginePanel);
-
+        communicationsPane.add(commControlPanel);
+        communicationsPane.add(rtgPanel);
+        
         tabbedPane.addTab("main", mainPane );
         tabbedPane.addTab("science", sciencePane );
         tabbedPane.addTab("communications & power", communicationsPane);

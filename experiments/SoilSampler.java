@@ -46,7 +46,6 @@ public class SoilSampler extends Experiment {
         plotPanel.setPreferredSize(new Dimension(400, 160));
         add(plotPanel, BorderLayout.CENTER);
 
-        generateDemoComposition();
 
         JPanel control = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton collect = new JButton("Collect");
@@ -78,7 +77,7 @@ public class SoilSampler extends Experiment {
     }
 
     private void generateComposition() {
-        // simple mock composition: [silicates, iron, sulfates, water, organics]
+
         composition = new double[5];
         double total = 0;
         for (int i = 0; i < composition.length; i++) {
@@ -92,12 +91,4 @@ public class SoilSampler extends Experiment {
         if (plotPanel != null) plotPanel.repaint();
     }
 
-    private void generateDemoComposition() {
-        demoComposition = new double[5];
-        demoComposition[0] = 0.45; // silicates
-        demoComposition[1] = 0.15; // iron
-        demoComposition[2] = 0.2;  // sulfates
-        demoComposition[3] = 0.15; // water
-        demoComposition[4] = 0.05; // organics
-    }
 }

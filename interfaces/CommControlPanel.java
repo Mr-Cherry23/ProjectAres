@@ -12,7 +12,7 @@ public class CommControlPanel extends JPanel {
     private JCheckBox autoTransmitBox;
 
     public CommControlPanel() {
-        setPreferredSize(new Dimension(400, 360));
+        setPreferredSize(new Dimension(500, 360));
         setLayout(new BorderLayout());
 
         JPanel top = new JPanel(new BorderLayout());

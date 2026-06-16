@@ -4,9 +4,9 @@ import java.awt.*;
 public class Thermometer extends Experiment {
     RenderEngine engine;
 
-    private double temperature = 20.0;
-    private final double MIN_TEMP = -40.0;
-    private final double MAX_TEMP = 50.0;
+    private double temperature = -40.0;
+    private final double MIN_TEMP = -100.0;
+    private final double MAX_TEMP = 0.0;
 
     public Thermometer(long ID, RenderEngine engine) {
         super("thermometer", ID, new boolean[] {true,true,true,true,true});
@@ -50,7 +50,7 @@ public class Thermometer extends Experiment {
         g2.setColor(Color.BLACK);
         g2.setStroke(new BasicStroke(2));
         g2.drawRect(tubeX, tubeY, tubeWidth, tubeHeight);
-        g2.setColor(Color.WHITE);
+        g2.setColor(new Color(200, 50, 50));
         g2.fillOval(centerX - bulbRadius, bulbY - bulbRadius, bulbRadius * 2, bulbRadius * 2);
         g2.setColor(Color.BLACK);
         g2.drawOval(centerX - bulbRadius, bulbY - bulbRadius, bulbRadius * 2, bulbRadius * 2);
@@ -61,7 +61,7 @@ public class Thermometer extends Experiment {
         int mercuryHeight = (int) (tubeHeight * tempNormalized);
         int mercuryY = tubeY + tubeHeight - mercuryHeight;
         g2.setColor(new Color(200, 50, 50));
-        g2.fillRect(tubeX + 2, mercuryY, tubeWidth - 4, mercuryHeight);
+        g2.fillRect(tubeX + 2, mercuryY, tubeWidth - 2, mercuryHeight);
 
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("Arial", Font.PLAIN, 10));

@@ -5,8 +5,7 @@ import java.awt.geom.AffineTransform;
 public class CommunicationsPanel extends JPanel{
 
     public CommunicationsPanel(RenderEngine engine) {
-        setPreferredSize(new Dimension(640, 360));
-
+        setPreferredSize(new Dimension(500, 360));
     }
     
     @Override
@@ -82,6 +81,12 @@ public class CommunicationsPanel extends JPanel{
         g2.fillPolygon(solarPanel);
         g2.setColor(Color.BLACK);
         g2.drawPolygon(solarPanel);
+
+        g2.setTransform(old);
+
+        g2.setColor(Color.BLACK);
+        g2.setFont(new Font("Arial", Font.BOLD, 24));
+        g2.drawString("Communications Relay Network", 120,  270);
 
     }
     

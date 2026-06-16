@@ -2,10 +2,9 @@ public class PowerManager {
     private double baseDailyBudget;
     private double remaining;
     private int sol;
-    // RTG health 0..1
     private double rtgHealth = 1.0;
-    private double minDecay = 0.005; // minimum decay per sol
-    private double maxDecay = 0.02;  // maximum decay per sol
+    private double minDecay = 0.005;
+    private double maxDecay = 0.02;
 
     public PowerManager(double baseDailyBudget) {
         this.baseDailyBudget = baseDailyBudget;
